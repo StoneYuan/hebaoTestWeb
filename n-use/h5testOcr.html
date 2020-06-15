@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>H5接口测试</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    <script type="text/javascript">
+
+      var imgData="iVBORw0KGgoAAAANSUhEUgAAAD4AAAA+CAMAAABEH1h2AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAEUUExURQc2hv7//wAtgJgABUCzTp4CEN5IDP///xRffNMMBAAqf9MFAAZVdNECAJK2w/n18Qo+g/z7+javRTqxSdteLN9DBh1yb/z9/RFbfkK0TdQpJNU2Mfnr6Nw9AQIyhE5upPj491y8Z+jBu/zz8tpCPK7gtFl2qQtZePHe3r7ow2J+r+N7XtYfGdTf5nKQt+308YKawN09DjpencjqzOeZk2qEsrLB1rNES0Rmod5FCdWXnIKpt0R/ldMVEEy2WdinquuypuvPz6UhKjNXmasvN/razpyuzTV4icna4B9Hj9tLRt3s47tYXcNqbtxRGcuFiHnJg8DM4LxRWKESGnHHe5LRmnLGfH3Lh99MEwRRdg1fcxVhehUBN1UAAAJlSURBVEjH7dfZdppQFAZg4BRRlCgxhhYFLHFAjWiNU0yMQ2xSp5o0Hd//RboZjAODIBe9aP47Wevb7MNw2GJUoGBv/H/g7OgiCB+gieyD4/ju7wVC5FKhcA8cV2RlT1PfEEmi8cADx5t9pp9rZiwcCnRGFMW58wueiUQZhq/I7OZgR+ckelnFD5xd6UcjEKiQbmZwc7kmhwLmJXTkGYNDGOZyNszqC5qsOYnQQoEDzvxyzc0WRtDC8gVtCox7LOWJ6xUisyFLZXodcl0BoY7ileuLSGs3Qhksx8gogXrOV97CoYDwtSJDhfhgMdaa8Mkjn0KC8LsyhLvGjVYT5MZ5Wx4KXQvCWWUIPXDySvbPISnBXAV+FNd7SEGFrOtD68KNVXx25Gz6EIcCLpxnzEQ3Ea5TO3Hhldwspydthuf5s704c1zba7RwHMuy2WzcLixG4QE2Wg4496xKXUmSCoVCudxqtVRVrUNObJLXUtJypWUOnCoTNKGFJuitEDFL/pyfmknqOf0IzbcJEbNJImzJ+/MP77aT1LhEYwE4ey8G40QQzgXkjUCc+lfcuO9H8SQ8O3e/SvDUdX1zsHfff5Rq+mbljwNN3j3la68faD8cTvszf1UzX2idSx55MVZ8fMrP92cbL7wYi4Vvb75kbSarQ7xYjIUfb9pVzn4wK7i9cRqF07LOc50j3+4Yd+Z2zYsEEb5VT6r4wanSwkWCFhP3dfvFWniZ2KU01qg/z1mvM235de0iTSe6rYeqr5HY4CJNYFPJFzV4i4aOiWnhoVo7ZiAv09OG2q4d95mBff5Y+vZXKFD+Al1Km8mRN25yAAAAAElFTkSuQmCC";
+
+  <!--获取通讯录-->
+    function getContacts(){
+      var contacts = goActivity.getContacts();
+      document.getElementById("contacts").innerHTML = contacts;
+    }
+
+
+      <!--申请联系人权限的回调方法-->
+    function permissionContact(permission){
+      if (permission == 1) {
+        document.getElementById("permission2").innerHTML = '有联系人权限';
+      }else{
+        document.getElementById("permission2").innerHTML = '无联系人权限';
+      }
+    }
+
+          <!--申请短信权限的回调方法-->
+    function permissionSms(permission){
+      if (permission == 1) {
+        document.getElementById("permission3").innerHTML = '有读短信权限';
+      }else{
+        document.getElementById("permission3").innerHTML = '无读短信权限';
+      }
+    }
+
+
+		function smsReceivedCallBack(message)
+		{
+        document.getElementById("smsReceive").innerHTML = message;
+    }
+
+    	function screenShotCallBack(message)
+		{
+        document.getElementById("screenShot").innerHTML = message;
+    }
+
+            <!--获取网络类型-->
+    function getNetType(){
+      document.getElementById("netType").innerHTML = goActivity.getNetworkType();
+    }
+
+            <!--检测本机号码-->
+    function checkSim(){
+      var mobile=document.getElementById("mobile").value;
+      var result=goActivity.checkIsSimNumber(mobile);
+      var message;
+      if(result==1)
+      {
+        message="是SIM卡相同的号码"
+      }
+       else if(result==-1)
+      {
+        message="不是SIM卡相同的号码"
+      }
+      else
+      {
+        message="无法判断"
+      }
+      document.getElementById("sim").innerHTML = message;
+    }
+
+ function insertContacts(){
+      var result = goActivity.insertContacts("[{ 'name': '张三', 'mobile': '11111111111'},{ 'name': '李四', 'mobile': '11111111112'},{ 'name': '王五', 'mobile': '11111111113'}]","javascript:insertContactsCallBack(%d,'%s')");
+    }
+
+     function insertContactsCallBack(state,message){
+            document.getElementById("insertContacts").innerHTML = state+message;
+    }
+
+     function deleteContacts(){
+      var result = goActivity.deleteContacts("[{ 'name': '张三', 'mobile': '11111111111'},{ 'name': '李四', 'mobile': '11111111112'},{ 'name': '王五', 'mobile': '11111111113'}]","javascript:deleteContactsCallBack(%d,'%s')");
+    }
+
+    function deleteContactsCallBack( state,message){
+            document.getElementById("deleteContacts").innerHTML = state+message;
+    }
+
+	function jsCallBack(result)
+	{
+		window.goActivity.showToast("回调结果为:"+result)
+	}
+
+    <!--通用回调-->
+ 	function commonCallBack(resultcode,result)
+	{
+		window.goActivity.showToast("回调结果为第一个参数:"+resultcode+"第二个参数："+result)
+	}
+    <!--查询用户是否绑卡-->
+    function getHasBankCard(){
+      var hasBankCard = goActivity.getHasBankCard();
+      document.getElementById("hasBankCard").innerHTML = hasBankCard;
+    }
+
+    <!--查询经度-->
+    function getLongitude(){
+      var longitude = goActivity.getLongitude();
+
+      document.getElementById("longitude").innerHTML = longitude;
+    }
+
+    <!--查询纬度-->
+    function getLatitude(){
+      var latitude = goActivity.getLatitude();
+      document.getElementById("latitude").innerHTML = latitude;
+    }
+
+<!--H5充值唤起支付插件-->
+    function common_recharge()
+    {
+        var inputRecharge=document.getElementById("inputRecharge").value;
+        goActivity.callToPayRecharge(inputRecharge)
+    }
+
+	 <!--H5唤起银行卡详情页面-->
+    function common_bankdetail()
+    {
+        var str='{ "bankName":"中国银行","signDate":"2018-11-13", "payLimitStr":"300000","isSecurity":"0","cardNo":"4444", "bankWithFamily":"1", "bankWithFamilyTip":"不好意思哈，绑了亲属卡，哈哈","defaultCard":"0", "bankBackGroudMCAId":"red","cardType":"0","bankNo":"ICBC", "bankAgreementCode":"NEWAG100000000037911"}';
+
+        goActivity.goBankDetailActivity('N',str)
+    }
+    <!--获取保存的省份-->
+    function getProvince(){
+      var province = goActivity.getProvince();
+      document.getElementById("province").innerHTML = province;
+    }
+
+    <!--保存城市-->
+    function getCity(){
+      var city = goActivity.getCity();
+      document.getElementById("city").innerHTML = city;
+    }
+
+    <!--获取和包版本号-->
+    function getVersionCode(){
+      var versionCode = goActivity.fetchVersion();
+      document.getElementById("versionCode").innerHTML = versionCode;
+    }
+
+    <!--扫一扫的回调方法-->
+    function callbackScanCodeByApp(qrcodeResult){
+      document.getElementById("qrcodeResult").innerHTML = qrcodeResult;
+    }
+
+    <!--申请相机权限的回调方法-->
+    function permissionCB(permission){
+      if (permission == 1) {
+        document.getElementById("permission").innerHTML = '有摄像头权限';
+      }else{
+        document.getElementById("permission").innerHTML = '无摄像头权限';
+      }
+    }
+
+	   function captureSelf(){
+        window.goActivity.verifyDangerUser(true,'','',"javascript:captureActionCallBack('%s')");
+      }
+     function captureOther(){
+        var name=document.getElementById("capture_name").value;
+        var id=document.getElementById("capture_id").value;
+        window.goActivity.verifyDangerUser(false,name,id,"javascript:captureActionCallBack2('%s')");
+     }
+
+    	function captureActionCallBack(number)
+		{
+        document.getElementById("captureAction").innerHTML =" 本人检测完成   "+number;
+    }
+
+	  	function captureActionCallBack2(number)
+		{
+        document.getElementById("captureAction2").innerHTML =" 他人检测完成   "+number;
+    }
+
+    <!--身份证正面的回调方法-->
+    function getFrontIdCard(frontcardInfo){
+      var name = frontcardInfo["name"];
+      var IDNO = frontcardInfo["IDNO"];
+      var sex = frontcardInfo["sex"];
+      var nation = frontcardInfo["nation"];
+      var birthday = frontcardInfo["birthday"];
+      var address = frontcardInfo["address"];
+      var photo = frontcardInfo["photo"];
+        document.getElementById("frontcardInfo").innerHTML = 'name=' + name + ' ;idno=' + IDNO + ';sex=' + sex + ';nation=' + nation + ';birthday=' + birthday + ';address=' + address + ';photo=' + photo;
+    }
+
+    <!--身份证背面的回调方法-->
+    function getBackIdCard(backcardInfo){
+      var validDate = backcardInfo["validDate"];
+      var office = backcardInfo["office"];
+      var photo = backcardInfo["photo"];
+        document.getElementById("backcardInfo").innerHTML = 'validDate=' + validDate + ';office=' + office + ';photo=' + photo;
+    }
+
+    <!--营业执照的回调方法-->
+    function getBNSLicInfo(nbsInfo){
+      var recoArray = nbsInfo["recoArray"];
+        document.getElementById("bnsLicenceInfo").innerHTML = 'recoArray=' + JSON.stringify(recoArray);
+    }
+
+    <!--银行卡OCR的回调方法-->
+    function callbackBankInfo(bankcardInfo){
+        document.getElementById("bankcardInfo").innerHTML = 'bankcardInfo=' + bankcardInfo;
+    }
+
+    <!--定义回调函数，h5唤起支付插件回调-->
+    function callbackPayResult(result) {
+        document.getElementById("payResult").innerHTML = 'payResult=' + result;
+		document.getElementById("newpayResult").innerHTML = 'payResult=' + result;
+    }
+
+    <!--定义回调函数，h5唤起支付插件回调-->
+    function callbackPayResult(result) {
+        document.getElementById("payResult").innerHTML = 'payResult=' + result;
+		document.getElementById("newpayResult").innerHTML = 'payResult=' + result;
+    }
+
+   <!--H5唤起支付插件弹出输入提示框-->
+    function sessionId_prompt()
+    {
+        var sessionId=document.getElementById("sessionId_input").value;
+        goActivity.callToPay(sessionId)
+    }
+
+     <!--H5唤起支付插件弹出输入提示框-->
+    function common_prompt()
+    {
+        var sessionId=document.getElementById("sessionId").value;
+        var paytype=document.getElementById("paytype").value;
+        var gettype=document.getElementById("gettype").value;
+        goActivity.callToPay(sessionId,paytype,gettype)
+    }
+
+	<!--实名认证成功回调-->
+    function notifyAuthSuccess()
+    {
+    	document.getElementById("authsuccess").innerHTML = "实名认证成功回调";
+    }
+
+	<!--绑卡成功回调-->
+    function notifyAddBankCardSuccess()
+    {
+    	document.getElementById("addbankcardsuccess").innerHTML = "绑卡成功回调";
+    }
+
+    <!--拍照回调-->
+    function takePhotoBack(photoinfo)
+    {
+      var md5 = photoinfo["md5"];
+      var image = photoinfo["photo"];
+      document.getElementById("takephoto").innerHTML = "md5=" + md5 + "; image=" + image;
+    }
+
+    <!--手机信息查询（和包贷使用）-->
+    function getDeviceInfo(){
+      var deviceInfo = getInfo.getPhoneInfo();
+      document.getElementById("deviceInfo").innerHTML = deviceInfo;
+    }
+
+	window.onload = function() {
+	    console.log('window.onload');
+	    function a(){
+	        var loadFileBtn = document.querySelector('.loadFileBtn');
+	        var fileInputField = document.querySelector('.hiddenFileInput');
+	        var img = document.querySelector('img');
+	        loadFileBtn.addEventListener('click', function() {
+	         fileInputField.click();
+	        }.bind(this));
+	        fileInputField.addEventListener('change', function(evt) {
+	            console.log('Change', evt);
+	            var reader = new FileReader();
+	            reader.onload = function (evt) {
+	                img.src = evt.target.result;
+	            };
+	            reader.readAsDataURL(evt.target.files[0]);
+	        });
+	    }
+
+        function b(){
+	        var recordingFileBtn = document.getElementById('recordingFileBtn');
+	        var recordingFileInput = document.getElementById('recordingFileInput');
+	        var imgr = document.getElementById("imgr");
+	        recordingFileBtn.addEventListener('click', function() {
+	            recordingFileInput.click();
+	        }.bind(this));
+	        recordingFileInput.addEventListener('change', function(evt) {
+	            console.log('Change', evt);
+	            var reader = new FileReader();
+	            reader.onload = function (evt) {
+	                imgr.src = evt.target.result;
+	            };
+	            reader.readAsDataURL(evt.target.files[0]);
+	        });
+	     }
+	    a();
+	    b();
+	};
+
+	function getTitleMenu(){
+	   var s  = '[{"menuName": "跳转百度",  "menuUrl": " https://www.baidu.com"},{"menuName": "菜单二","menuUrl": "菜单二指向的地址或注入的代码" }]';
+	    return s;
+	};
+
+	<!--获取图片成功-->
+    function notifyGetPicSuccess(picPath){
+
+        document.getElementById("picPathStr").innerHTML = "图片地址是:"+picPath;
+
+        document.getElementById("picPath").src = picPath;
+    };
+
+    <!--获取图片失败-->
+    function notifyGetPicFail(){
+        alert("获取图片失败");
+    };
+
+
+    <!--发送短信-->
+    function sendMsgjs()
+    {
+        var phoneNumber=document.getElementById("phoneNumber").value;
+        var content=document.getElementById("content").value;
+        goActivity.sendMsg(phoneNumber,content)
+    }
+
+     <!--唤起订单列表页面-->
+    function queryorderjs()
+    {
+        var orderdate=document.getElementById("orderdate").value;
+        var ordertype=document.getElementById("ordertype").value;
+        goActivity.getBillOrder(orderdate,ordertype)
+    }
+
+    <!--查询订单详情-->
+    function queryOrderDetail(){
+        var orderId = document.getElementById("orderId").value;
+        var orderType =document.getElementById("orderdetailType").value;
+        var orderCreDt =document.getElementById("orderdetailCreDt").value;
+        var orderTxnFlg =document.getElementById("orderdetailTxnFlg").value;
+        var orderTxnTyp =document.getElementById("orderdetailTxnTyp").value;
+        var orderYpsFlg =document.getElementById("orderdetailYpsFlg").value;
+        var orderReqType =document.getElementById("orderdetailReqType").value;
+        goActivity.goTradingRecordDetail(
+            orderId
+            ,orderType
+            ,orderCreDt
+            ,orderTxnFlg
+            ,orderTxnTyp
+            ,orderYpsFlg
+            ,orderReqType)
+    }
+
+    function openredpacket () {
+      var redPacketId=document.getElementById("redpacket_txt").value;
+      location.href='dcpay://com.cmcc:8888/wallet?redPacketId=' + redPacketId
+    }
+	
+   <!--H5唤起小程序-->
+    function openMiniApplication()
+    {
+        var miniAppId=document.getElementById("miniApplicationId_input").value;
+        goActivity.openMiniApplication(miniAppId);
+    }
+
+  </script>
+
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="row">
+        <input type="text" placeholder="请输入小程序id" id="miniApplicationId_input"/><br>
+        <button type="button" class="btn" onclick="openMiniApplication()">唤起小程序（9.0需求2019年10月12日 11:12:33添加）</button>
+    </div> <br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goShare.go()">默认分享（已不建议使用）</button>
+    </div> <br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.MobileWalletShare.startShare('充值', 'http://www.baidu.com','充值送话费')">自定义分享</button>
+    </div> <br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.HJBApp.goHJB()">调起和聚宝</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.LifePayApp.goLifePay('aid')">调起生活缴费</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goPayPhone()">调起充话费</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goChargeMobile()">调起充流量</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goCreditCard()">调起信用卡还款</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goTopSpeed()">调起付款码</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goElectrionic()">调起电子劵</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goAddBankCard('')">调起添加银行卡</button>
+        <p id="addbankcardsuccess"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.notifyJoinActivitySucc()">新手礼活动通知（前端隐藏悬浮按钮）</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="getContacts()">获取通讯录</button>
+        <p id="contacts"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goBalance()">余额页面</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="getHasBankCard()">查询用户是否绑卡</button>
+        <p id="hasBankCard"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.closeWebView()">关闭浏览器</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goRechargeBankCardList()">打开和包充值银行卡列表</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="getLongitude()">获取保存的经度信息</button>
+        <p id="longitude"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="getLatitude()">获取保存的纬度信息</button>
+        <p id="latitude"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="getProvince()">获取保存的省份信息</button>
+        <p id="province"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="getCity()">获取保存的城市信息</button>
+        <p id="city"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goWeb('http://www.baidu.com')">打开新的和包H5页面</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goAutoPayPhone()">打开自动充话费</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="getVersionCode()">获取和包版本号</button>
+        <p id="versionCode"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.notifyHJBBalanceUpdate()">通知和聚宝余额有变化(当前无效)</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.ScannerActivity('http://www.baidu.com')">H5页面（和包贷）跳转到扫一扫页面</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity. ScannerByAppForJsBack()">H5页面调用和包扫一扫获取扫描结果</button>
+        <p id="qrcodeResult"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goMocamContact()">H5跳转和包联系人界面</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.showToast('message test 你好')">H5页面弹出Toast提示</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.rebindSafeCard('message')">H5重绑快捷成功后通知和包</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.doPermission.doApplyCameraPermission()">H5申请相机、存储权限</button>
+        <p id="permission"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.doOCR.getIDCardPositive()">调用身份证正面OCR</button>
+        <p id="frontcardInfo"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.doOCR.getIDCardNegative()">调用身份证背面OCR</button>
+        <p id="backcardInfo"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.doOCR.getBankCardInfo()">调用银行卡OCR</button>
+        <p id="bankcardInfo"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.doOCR.getBnsLicenceInfo()">调用营业执照OCR</button>
+        <p id="bnsLicenceInfo"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goIDCardAuth()">调用实名认证</button>
+        <p id="authsuccess"></p>
+    </div><br>
+
+    <div class="row">
+        <input type="text" placeholder="请输入订单号" id="sessionId_input"/><br>
+        <button type="button" class="btn" onclick="sessionId_prompt()">调用唤起h5支付</button>
+        <p id="payResult"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goMocamContact(1,'',0,'javascript:jsCallBack('%s')')">跳转联系人单选不关闭</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goMocamContact(2,'',0,'javascript:jsCallBack('%s')')">跳转联系人单选关闭</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goMocamContact(3,'11111111111,11111111111,11111111111',30,'javascript:jsCallBack('%s')')">跳转联系人多选</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.MobileWalletShare.shareToQQ('充值', 'http://www.baidu.com','充值送话费','javascript:jsCallBack(%b)')">QQ分享</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.MobileWalletShare.directToWeiXin('充值', 'http://www.baidu.com','充值送话费','javascript:jsCallBack(%b)',imgData)">微信分享</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.MobileWalletShare.shareToWeiXin('充值', 'http://www.baidu.com','充值送话费','javascript:jsCallBack(%b)')">微信分享没有图片</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.MobileWalletShare.directToFriends('充值', 'http://www.baidu.com','充值送话费','javascript:jsCallBack(%b)',imgData)">微信朋友圈分享</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.MobileWalletShare.shareToFriends('充值', 'http://www.baidu.com','充值送话费','javascript:jsCallBack(%b)')">微信朋友圈分享没有图片</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.doSetting.setTitleShow(true)">显示Title（不建议使用）</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.doSetting.setTitleShow(false)">隐藏Title（不建议使用）</button>
+    </div><br>
+
+    <div class="row">
+        <input type="file" class="hiddenFileInput" accept="image/*" style="display:none">
+        <button type="button" class="loadFileBtn">上传图片</button><br>
+        <img src="" height="50%" width="50%"/>
+    </div><br>
+
+    <div class="row">
+        <input type="file" id="recordingFileInput" accept="video/*" capture="camcorder" style="display:none">
+        <button type="button" id="recordingFileBtn">录制视频</button><br>
+        <video id="imgr" src="" controls="controls" height="50%" width="50%"/>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goOnlineCustomService()">智能客服</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goFeedBack()">意见反馈</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goManagePassword()">密码管理</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goBillList()">交易查询</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='https://211.138.236.210:5443/'">SSL错误</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.takePhoto(200, 720)">拍照</button>
+        <p id="takephoto"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay:// ?'">拉起和包</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="getDeviceInfo()">手机信息查询（和包贷使用）</button>
+        <p id="deviceInfo"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.loginOut()">用户注销</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.payPassStsUpdated()">支付密码状态变更</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='file:///storage/sdcard0/com/cmcc/mocam/logs/log.temp'">测试文件跨域访问</button>
+    </div><br>
+
+    <a href="https://www.baidu.com"  target="_blank">跳转到百度(_blank测试)</a>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay:// ?actionId=1&channelId=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT'">外部H5跳转绑银行卡</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay:// ?actionId=2&channelId=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT'">外部H5跳转信用卡</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay:// ?actionId=3&channelId=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT'">外部H5跳转号码付</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay:// ?actionId=4&channelId=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT'">外部H5跳转转账</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay:// ?actionId=5&channelId=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT'">外部H5跳转充话费</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay:// ?actionId=6&channelId=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT'">外部H5跳转充流量</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay:// ?actionId=7&channelId=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT'">外部H5跳转生活缴费</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay:// ?actionId=8&channelId=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT'">外部H5跳转付款码</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay:// ?actionId=10&channelId=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT'">外部H5跳转余额</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay:// ?actionId=51&channelId=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT'">外部H5跳转发红包</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay:// ?channelId=aifIpzfEzNLYyqkGi4p5VlkqutdSPugT'">外部H5跳转不传功能代码</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay:// ?actionId=51'">外部H5跳转不传渠道号</button>
+    </div><br>
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.dialNumber('10086')">拨号10086</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.openNavigation('侯家塘','28.1731123308','112.9830551147','长沙火车站','28.1951276796','112.9843425751','')">导航</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.doSetting.setTitleMenuList(getTitleMenu())">添加菜单</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.doSetting.setTitleMenuList(null)">隐藏菜单</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.MobileWalletShare.goWXWebpageByChatApp('http://www.baidu.com','gh_67d030d5af75','小程序','小程序描述','pages/index/index',imgData,'javascript:jsCallBack(%b)')">小程序分享</button>
+    </div><br>
+
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.doPermission.doApplyWriteContactPermission('javascript:permissionContact(%d)')">H5申请通讯录权限</button>
+        <p id="permission2"></p>
+    </div><br>
+
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.doPermission.doApplyRedSmsPermission('javascript:permissionSms(%d)')">H5申请短信权限</button>
+        <p id="permission3"></p>
+    </div><br>
+
+
+
+    <div class="row">
+        <button type="button" class="btn" onclick="insertContacts();">批量插入联系人</button>
+        <p id="insertContacts"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="deleteContacts();">批量删除联系人</button>
+        <p id="deleteContacts"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="location.href='sms:10086'">DeepLink发送短信</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="location.href='tel:10086'">DeepLink拨打电话</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="location.href='miguvideo://amber_deeplink?DLSI=a75b353fe99443b5af2edd6bf443414e&JA=miguvideo'">DeepLink咪咕视频</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.saveImageToPhone('http://img2.imgtn.bdimg.com/it/u=764856423,3994964277&fm=26&gp=0.jpg', 100,100)">下载图片</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="getNetType()">获取网络类型</button>
+        <p id="netType"></p>
+    </div><br>
+
+
+    <div class="row">
+        <input type="text" placeholder="请输入电话号码" id="mobile"/><br>
+        <button type="button" class="btn" onclick="checkSim()">判断是否是本机号码</button>
+        <p id="sim"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.registerSmsReceivedCallBack('javascript:smsReceivedCallBack(%s)')">监听短信</button>
+        <p id="smsReceive"></p>
+    </div><br>
+
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.registerScreenShotCallBack('javascript:screenShotCallBack()')">监听截图</button>
+        <p id="screenShot"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goResetPayPwd('javascript:commonCallBack(%s,%s)')">调起重置支付密码</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.getTokenForH5('javascript:commonCallBack(%s,%s)')">获取Token</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goPayInputPwd('javascript:commonCallBack(%s,%s)')">获取支付密码</button>
+    </div><br>
+
+    <div class="row">
+        <input type="text" placeholder="请输入订单号" id="sessionId"/><br>
+        <input type="text" placeholder="支付类型（0,1,2,3）" id="paytype"/><br>
+        <input type="text" placeholder="捡起类型" id="gettype"/><br>
+        <button type="button" class="btn" onclick="common_prompt()">调用唤起通用h5支付</button>
+        <p id="newpayResult"></p>
+    </div><br>
+
+
+    <div class="row">
+        <button type="button" class="btn" onclick="captureSelf();">本人活体检测</button>
+        <p id="captureAction"></p>
+    </div><br>
+
+    <div class="row">
+        <input type="text" placeholder="请输入姓名" id="capture_name"/><br>
+        <input type="text" placeholder="请输入身份证" id="capture_id"/><br>
+        <button type="button" class="btn" onclick="captureOther();">他人活体检测2</button>
+        <p id="captureAction2"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.gotoCameraActivity('javascript:jsCallBack(%s)','http://www.baidu.com')">调起名片识别OCR</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.getPicFromSystem()">获取照片</button>
+        <p id="picPathStr"></p>
+        <img id="picPath" src="" controls="controls" height="50%" width="50%"/>
+    </div><br>
+
+    <div class="row">
+        <input type="text" placeholder="查询日期（如：201809）" id="orderdate"/><br>
+        <input type="text" placeholder="订单类型（0-15）" id="ordertype"/><br>
+        <button type="button" class="btn" onclick="queryorderjs()">调起账单列表页面</button>
+    </div><br>
+
+    <div class="row">
+        <input type="text" placeholder="手机号" id="phoneNumber"/><br>
+        <input type="text" placeholder="短信内容" id="content"/><br>
+        <button type="button" class="btn" onclick="sendMsgjs()">唤起短信发送页面</button>
+    </div><br>
+
+    <div class="row">
+        <input type="text" placeholder="请输入账单号" id="orderId"/><br>
+        <input type="text" placeholder="输入账单类型" id="orderdetailType"/><br>
+        <input type="text" placeholder="时间CreDt" id="orderdetailCreDt"/><br>
+        <input type="text" placeholder="收付款标识（转账用的）TxnFlg" id="orderdetailTxnFlg"/><br>
+        <input type="text" placeholder="云pos渠道订单为1， 付款码现场联机渠道为0 YpsFlg" id="orderdetailYpsFlg"/><br>
+        <input type="text" placeholder="请求类型" id="orderdetailReqType"/><br>
+        <button type="button" class="btn" onclick="queryOrderDetail()">唤起账单详情</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goBusinessSDK()">调起原生名片首页sdk</button>
+    </div><br>
+
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay://hejiaqinsdk/HYNetwork'">跳转到网络首页</button>
+    </div>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay://hejiaqinsdk/HYWifiSpeedEstimate'">跳转到一键测速</button>
+    </div>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay://hejiaqinsdk/HYWifiStrengthDetect'">跳转到信号勘测</button>
+    </div>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay://hejiaqinsdk/HYSmartDeviceHome'">1.跳转到设备首页</button>
+    </div>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay://hejiaqinsdk/HYAddDevices'">2.跳转到添加设备列表页</button>
+    </div>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay://hejiaqinsdk/pushToHYMall'">3.跳转到商城主页</button>
+    </div>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay://hejiaqinsdk/HYControlDevice?deviceType=XXX&deviceId=XXX'">4.跳转到管控页面(需要真实的数据):</button>
+    </div>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay://hejiaqinsdk/HYBindDevice?deviceType=XXX'">5.跳转到具体设备配网(需要真实的数据)</button>
+    </div>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="location.href='cmpay://hejiaqinsdk/pushToHYMallProductDetail?productId=XXX'">6.跳转到商城单品(需要真实的数据)</button>
+    </div>
+
+    <div class="row">
+        <button type="button" class="btn" value="go" onclick="window.goActivity.goSystemWebview('https://www.baidu.com)">用系统浏览器打开百度</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onClick="window.MobileWalletShare.startShare('充值', 'http://www.baidu.com','充值送话费','javascript:jsCallBack(%b)')">调起分享面板（带回调）</button>
+    </div><br>
+
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goContactWithNameAndPhone('javascript:commonCallBack(%s,%s)')">H5单选联系人（回调姓名，电话）</button>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="window.goActivity.goTransfer()">转账</button>
+    </div><br>
+
+    <div class="row">
+        <input type="text" placeholder="请输入充值金额" id="inputRecharge"/><br>
+        <button type="button" class="btn" onclick="common_recharge()">充值唤起支付插</button>
+        <p id="RechargepayResult"></p>
+    </div><br>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="common_bankdetail()">唤起银行卡详情页面</button>
+    </div><br>
+
+
+
+    <div class="row">
+        <input type="text" placeholder="请输入红包ID" id="redpacket_txt"/><br>
+        <button type="button" class="btn" value="go" onclick="openredpacket()">唤起数字钱包</button>
+    </div><br>
+
+</div>
+
+</body>
+</html>

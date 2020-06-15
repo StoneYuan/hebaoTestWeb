@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>支付</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--标准mui.css-->
+    <link rel="stylesheet" href="css/mui.min.css">
+    <!--App自定义的css-->
+    <link rel="stylesheet" type="text/css" href="css/app.css" />
+    <style>
+    .title {
+        margin: 20px 15px 7px;
+        color: #6d6d72;
+        font-size: 15px;
+    }
+    </style>
+</head>
+
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">支付</h1>
+    </header>
+    <div class="mui-content">
+        <div class="title">
+            和包支付
+        </div>
+        <div class="mui-card">
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell mui-collapse mui-active">
+                    <a class="mui-navigate-right" href="#" id="titleId0">订单号：</a>
+                    <div class="mui-collapse-content">
+                        <div class="mui-input-row" style="margin: 10px 5px;">
+                            <input type="text" id="reqContent" />
+                        </div>
+                    </div>
+                </li>
+
+                <li class="mui-table-view-cell mui-collapse mui-active">
+                    <a class="mui-navigate-right" href="#" id="titleId0">订单类型：</a>
+                    <div class="mui-collapse-content">
+                        <div class="mui-input-row" style="margin: 10px 5px;">
+                            <input type="text" id="reqContent1" />
+                        </div>
+                    </div>
+                </li>
+
+                <li class="mui-table-view-cell mui-collapse mui-active">
+                    <a class="mui-navigate-right" href="#" id="titleId0">订单捡起类型(sessionID还是orderID)：</a>
+                    <div class="mui-collapse-content">
+                        <div class="mui-input-row" style="margin: 10px 5px;">
+                            <input type="text" id="reqContent2" />
+                        </div>
+                    </div>
+                </li>
+
+                <li class="mui-table-view-cell mui-collapse mui-active">
+                    <a class="mui-navigate-right" href="#" id="titleId0">支付结果：</a>
+                    <div class="mui-collapse-content">
+                        <div class="mui-input-row" style="margin: 10px 5px;">
+                            <input type="text" id="reqContent3" />
+                        </div>
+                    </div>
+                </li>
+
+                <li class="mui-table-view-cell mui-collapse mui-active">
+                    <a class="mui-navigate-right" href="#" id="titleId0">参数说明：</a>
+                    <div class="mui-collapse-content">
+                        <div class="mui-input-row" style="margin: 10px 5px;">
+                            <p>订单类型:</p>
+                            <span>0:商户客户端发起的订单(sesionid(需要补录)，如：交通罚款；或订单号，如：生活缴费：水电等)<br>1:cmpay直接支付订单(订单号)<br>2:缴话费订单（包括和聚宝充值）<br>3:收付款(转账到和包账号)<br></span>
+                            <p>订单捡起类型:</p>
+                            <span>0:订单号捡起<br>1:sessionid捡起<br></span>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="mui-table-view-cell">
+                    <a href="javascript:void(0);" onclick="H5fetchPayPlug();">
+                        <div class="mui-media-body" style="text-align: center;">
+                            开始支付
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script src="js/mui.min.js"></script>
+<script>
+function H5fetchPayPlug() {
+    var orderNo = document.getElementById("reqContent").value;//订单号
+    var orderType = document.getElementById("reqContent1").value;//订单类型
+    var pickupType = document.getElementById("reqContent2").value;//订单捡起类型0:订单号捡起 1:sessionID捡起
+    // alert('调起插件方法' + info);
+    cmpCommonPay(orderNo,orderType,pickupType);
+    // var result = '{"payStatus":"payfail"}';
+    // callbackCmpCommonPay(result);
+}
+
+function callbackCmpCommonPay(result){
+    // var payObj = JSON.parse(result);
+    // alert(result.payStatus);
+    var resultText = document.getElementById("reqContent3");
+    if(result.payStatus == 'payfail'){
+        resultText.value = '支付失败';
+    }else if (result.payStatus == 'paysuccess') {
+        resultText.value = '支付成功' + '  回调url:' + result.sucessUrl;
+    }
+}
+
+mui.init({
+    swipeBack: true //启用右滑关闭功能
+});
+</script>
+</html>

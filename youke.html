@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>游客模式拉起SDK</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--标准mui.css-->
+    <link rel="stylesheet" href="css/mui.min.css">
+    <!--App自定义的css-->
+    <link rel="stylesheet" type="text/css" href="css/app.css" />
+    <style>
+    .title {
+        margin: 20px 15px 7px;
+        color: #6d6d72;
+        font-size: 15px;
+    }
+    </style>
+</head>
+
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">游客模式拉起登录页面</h1>
+    </header>
+    <div class="mui-content">
+        <div class="mui-card">
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell mui-collapse mui-active">
+                    <a class="mui-navigate-right" href="#" id="titleId0">targetUrl</a>
+                    <div class="mui-collapse-content">
+                        <div class="mui-input-row" style="margin: 10px 5px;">
+                            <input type="text" id="reqContent" />
+                        </div>
+                    </div>
+                </li>
+
+                <li class="mui-table-view-cell mui-collapse mui-active">
+                    <a class="mui-navigate-right" href="#" id="titleId0">回调结果：</a>
+                    <div class="mui-collapse-content">
+                        <div class="mui-input-row" style="margin: 10px 5px;">
+                            <input type="text" id="reqContent3" />
+                        </div>
+                    </div>
+                </li>
+
+                <li class="mui-table-view-cell mui-collapse mui-active">
+                    <a class="mui-navigate-right" href="#" id="titleId0">参数说明：</a>
+                    <div class="mui-collapse-content">
+                        <div class="mui-input-row" style="margin: 10px 5px;">
+                            <p>targetUrl:</p>
+                            <span>targetUrl为登录成功后回调页面地址，如果不传该值，则登录成功回调函数也不会传入单点登录后拼接的地址</span>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="mui-table-view-cell">
+                    <a href="javascript:void(0);" onclick="H5fetchPayPlug();">
+                        <div class="mui-media-body" style="text-align: center;">
+                            拉起
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script src="js/mui.min.js"></script>
+<script>
+function H5fetchPayPlug() {
+    var targetUrl = document.getElementById("reqContent").value;
+    touristLogin(targetUrl);
+}
+
+function touristLoginSuccessCallback(result){
+    // var payObj = JSON.parse(result);
+    // alert(result.payStatus);
+    var resultText = document.getElementById("reqContent3");
+    resultText.value = '回调地址' + '  回调url:' + result;
+}
+
+mui.init({
+    swipeBack: true //启用右滑关闭功能
+});
+</script>
+</html>

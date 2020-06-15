@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>H5蓝牙测试</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+
+        function openBluetoothAdapter() {
+			alert(hebao);
+			alert("1");
+			alert(typeof hebao);
+            var message = { "autoClose": true };
+            hebao.openBluetoothAdapter(message, {
+                success: (res) => {
+                    document.getElementById("openBlueText").innerHTML = "打开蓝牙服务成功:" + res;
+                },
+                fail: (res) => {
+                    document.getElementById("openBlueText").innerHTML = "打开蓝牙服务失败:" + res;
+                },
+                complete: (res) => {
+                    document.getElementById("openBlueText2").innerHTML = "打开蓝牙服务结束:" + res;
+                }
+            });
+
+        }
+
+        function closeBluetoothAdapter() {
+
+            hebao.closeBluetoothAdapter({
+                success: (res) => {
+                    document.getElementById("openBlueText").innerHTML = "关闭蓝牙服务成功:" + res;
+                },
+                fail: (res) => {
+                    document.getElementById("openBlueText").innerHTML = "关闭蓝牙服务失败:" + res;
+                },
+                complete: (res) => {
+                    document.getElementById("openBlueText2").innerHTML = "关闭蓝牙服务结束:" + res;
+                }
+            });
+
+        }
+
+        function startBluetoothDevicesDiscovery() {
+
+            hebao.startBluetoothDevicesDiscovery({
+                success: (res) => {
+                    document.getElementById("startDiscoveryText").innerHTML = "启动扫描蓝牙设备成功:" + res;
+                },
+                fail: (res) => {
+                    document.getElementById("startDiscoveryText").innerHTML = "启动扫描蓝牙设备失败:" + res;
+                },
+                complete: (res) => {
+                    document.getElementById("startDiscoveryText2").innerHTML = "启动扫描蓝牙设备结束:" + res;
+                }
+            });
+             document.getElementById("onDeviceFoundText2").innerHTML = "";
+
+
+        }
+
+        function stopBluetoothDevicesDiscovery() {
+
+            hebao.stopBluetoothDevicesDiscovery({
+                success: (res) => {
+                    document.getElementById("startDiscoveryText").innerHTML = "停止扫描蓝牙设备成功:" + res;
+                },
+                fail: (res) => {
+                    document.getElementById("startDiscoveryText").innerHTML = "停止扫描蓝牙设备失败:" + res;
+                },
+                complete: (res) => {
+                    document.getElementById("startDiscoveryText2").innerHTML = "停止扫描蓝牙设备结束:" + res;
+                }
+            });
+        }
+
+        function getBluetoothAdapterState() {
+
+            hebao.getBluetoothAdapterState({
+                success: (res) => {
+                    document.getElementById("getBlueStateText").innerHTML = "获取设备蓝牙状态成功:" + res;
+                },
+                fail: (res) => {
+                    document.getElementById("getBlueStateText").innerHTML = "获取设备蓝牙状态失败:" + res;
+                },
+                complete: (res) => {
+                    document.getElementById("getBlueStateText2").innerHTML = "获取设备蓝牙状态结束:" + res;
+                }
+            });
+
+        }
+
+
+        function onBluetoothDeviceFound() {
+
+            hebao.onBluetoothDeviceFound({
+                success: (res) => {
+                    document.getElementById("onDeviceFoundText2").innerHTML = document.getElementById("onDeviceFoundText2").innerHTML + res;
+                },
+                fail: (res) => {
+                    document.getElementById("onDeviceFoundText").innerHTML = "监听器注册失败:" + res;
+                }
+            });
+            document.getElementById("onDeviceFoundText").innerHTML = "监听器已注册\n";
+
+
+        }
+
+
+        function offBluetoothDeviceFound() {
+            hebao.offBluetoothDeviceFound();
+            document.getElementById("onDeviceFoundText").innerHTML = "监听器已删除\n";
+        }
+
+        function onBluetoothAdapterStateChange() {
+
+            hebao.onBluetoothAdapterStateChange({
+                success: (res) => {
+                    document.getElementById("onBluetoothAdapterStateChangeText2").innerHTML = "当前本机的蓝牙状态为:" + res;
+                },
+                fail: (res) => {
+                    document.getElementById("onBluetoothAdapterStateChangeText").innerHTML = "监听器注册失败:" + res;
+                }
+            });
+            document.getElementById("onBluetoothAdapterStateChangeText").innerHTML = "监听器已注册\n";
+
+
+        }
+
+
+        function offBluetoothAdapterStateChange() {
+            hebao.offBluetoothAdapterStateChange();
+            document.getElementById("onBluetoothAdapterStateChangeText").innerHTML = "监听器已删除\n";
+            document.getElementById("onBluetoothAdapterStateChangeText2").innerHTML = "";
+        }
+
+
+        function onDiscoveryStateChange() {
+
+            hebao.onDiscoveryStateChange({
+                success: (res) => {
+                    document.getElementById("onDiscoveryStateText2").innerHTML = "当前是否正在扫描:" + res;
+                },
+                fail: (res) => {
+                    document.getElementById("onDiscoveryStateText").innerHTML = "监听器注册失败:" + res;
+                }
+            });
+            document.getElementById("onDiscoveryStateText").innerHTML = "监听器已注册\n";
+
+        }
+
+
+        function offDiscoveryStateChange() {
+            hebao.offDiscoveryStateChange();
+            document.getElementById("onDiscoveryStateText").innerHTML = "监听器已删除\n";
+            document.getElementById("onDiscoveryStateText2").innerHTML = "";
+        }
+
+
+        function onBLECharacteristicValueChangeText() {
+
+            hebao.onBLECharacteristicValueChange({
+                success: (res) => {
+                    document.getElementById("onBLECharacteristicValueChangeText2").innerHTML = "收到蓝牙回写数据:" + res;
+                }
+            });
+            document.getElementById("onBLECharacteristicValueChangeText").innerHTML = "监听器已注册\n";
+
+        }
+
+
+        function offBLECharacteristicValueChangeText() {
+            hebao.offBLECharacteristicValueChange();
+            document.getElementById("onBLECharacteristicValueChangeText").innerHTML = "监听器已删除\n";
+            document.getElementById("onBLECharacteristicValueChangeText2").innerHTML = "";
+        }
+
+
+        function onBLEConnectionStateChanged() {
+
+            hebao.onBLEConnectionStateChanged({
+                success: (res) => {
+                    document.getElementById("onBLEConnectionStateChangedText2").innerHTML = "当前连接的设备状态为:" + res;
+                },
+                fail: (res) => {
+                    document.getElementById("onBLEConnectionStateChangedText").innerHTML = "监听器注册失败:" + res;
+                }
+            });
+            document.getElementById("onBLEConnectionStateChangedText").innerHTML = "监听器已注册\n";
+
+
+        }
+
+
+        function offBLEConnectionStateChanged() {
+            hebao.offBLEConnectionStateChanged();
+            document.getElementById("onBLEConnectionStateChangedText").innerHTML = "监听器已删除\n";
+            document.getElementById("onBLEConnectionStateChangedText2").innerHTML = "";
+        }
+
+
+
+
+
+        function getBluetoothDevices() {
+
+            hebao.getBluetoothDevices({
+                success: (res) => {
+                    document.getElementById("getBluetoothDevicesText").innerHTML = "获取已发现蓝牙设备信息成功:" + res;
+                },
+                fail: (res) => {
+                    document.getElementById("getBluetoothDevicesText").innerHTML = "获取已发现蓝牙设备信息失败:" + res;
+                },
+                complete: (res) => {
+                    document.getElementById("getBluetoothDevicesText2").innerHTML = "获取已发现蓝牙设备信息结束:" + res;
+                }
+            });
+
+        }
+
+
+        function connectBLEDevice() {
+            var mcaAddress = document.getElementById("mac_input").value;
+
+            var message = { "mac": mcaAddress };
+            hebao.connectBLEDevice(message, {
+                success: (res) => {
+                    document.getElementById("connectBLEDeviceText").innerHTML = "连接蓝牙设备成功:" + res;
+                },
+                fail: (res) => {
+                    document.getElementById("connectBLEDeviceText").innerHTML = "连接蓝牙设备成功失败:" + res;
+                },
+                complete: (res) => {
+                    document.getElementById("connectBLEDeviceText2").innerHTML = "连接蓝牙设备结束:" + res;
+                }
+            });
+
+        }
+
+
+          function writeValue() {
+            var serviceId = document.getElementById("serviceId_input").value;
+              var characteristicId = document.getElementById("characteristicId_input").value;
+            var notifyCharacteristicId = document.getElementById("characteristicId_input").value;
+            var message = document.getElementById("message_input").value;
+            var data = { "serviceId": serviceId,"characteristicId":characteristicId,"notifyCharacteristicId":characteristicId,"value":message };
+            hebao.writeBLECharacteristicValue(data, {
+                success: (res) => {
+                    document.getElementById("writeValueText").innerHTML = "写入数据成功:" + res;
+                },
+                fail: (res) => {
+                    document.getElementById("writeValueText").innerHTML = "写入数据失败:" + res;
+                },
+                complete: (res) => {
+                    document.getElementById("writeValueText2").innerHTML = "写入数据结束:" + res;
+                }
+            });
+               document.getElementById("writeValueText2").innerHTML = "正在写入数据:" ;
+
+        }
+
+        function disconnectBLEDevice() {
+
+            hebao.disconnectBLEDevice({
+                success: (res) => {
+                    document.getElementById("connectBLEDeviceText").innerHTML = "断开蓝牙设备成功:" + res;
+                },
+                fail: (res) => {
+                    document.getElementById("connectBLEDeviceText").innerHTML = "断开蓝牙设备信息失败:" + res;
+                },
+                complete: (res) => {
+                    document.getElementById("connectBLEDeviceText2").innerHTML = "断开蓝牙设备信息结束:" + res;
+                }
+            });
+
+        }
+
+
+    function getConnectedBluetoothDevices() {
+
+            hebao.getConnectedBluetoothDevices({
+                success: (res) => {
+                    document.getElementById("getConnectDevice").innerHTML = "获取已连接蓝牙设备信息成功:" + res;
+                },
+                fail: (res) => {
+                    document.getElementById("getConnectDevice").innerHTML = "获取已连接蓝牙设备信息失败:" + res;
+                },
+                complete: (res) => {
+                    document.getElementById("getConnectDevice2").innerHTML = "获取已连接蓝牙设备信息结束:" + res;
+                }
+            });
+
+        }
+
+
+/**/</script>
+
+</head>
+
+
+
+<body>
+
+<div class="container">
+    <p id="openBlueText"></p>
+    <p id="openBlueText2"></p>
+    <div class="row">
+        <button type="button" class="btn" onclick="openBluetoothAdapter()">初始化蓝牙适配器</button>
+        <button type="button" class="btn" onclick="closeBluetoothAdapter()">关闭本机蓝牙模块</button>
+    </div><br>
+
+
+    <p id="onBluetoothAdapterStateChangeText"></p>
+    <p id="onBluetoothAdapterStateChangeText2"></p>
+    <div class="row">
+        <button type="button" class="btn" onclick="onBluetoothAdapterStateChange()">注册蓝牙状态监听事件</button>
+        <button type="button" class="btn" onclick="offBluetoothAdapterStateChange()">关闭蓝牙状态监听事件</button>
+    </div><br>
+
+    <p id="onDeviceFoundText"></p>
+    <p id="onDeviceFoundText2"></p>
+    <div class="row">
+        <button type="button" class="btn" onclick="onBluetoothDeviceFound()">注册监听设备被发现事件</button>
+        <button type="button" class="btn" onclick="offBluetoothDeviceFound()">关闭监听设备被发现事件</button>
+    </div><br>
+
+
+    <p id="onDiscoveryStateText"></p>
+    <p id="onDiscoveryStateText2"></p>
+    <div class="row">
+        <button type="button" class="btn" onclick="onDiscoveryStateChange()">注册扫描监听事件</button>
+        <button type="button" class="btn" onclick="offDiscoveryStateChange()">关闭扫描监听事件</button>
+    </div><br>
+
+
+    <p id="onBLEConnectionStateChangedText"></p>
+    <p id="onBLEConnectionStateChangedText2"></p>
+    <div class="row">
+        <button type="button" class="btn" onclick="onBLEConnectionStateChanged()">注册设备连接监听事件</button>
+        <button type="button" class="btn" onclick="offBLEConnectionStateChanged()">关闭设备连接监听事件</button>
+    </div><br>
+
+    <p id="onBLECharacteristicValueChangeText"></p>
+    <p id="onBLECharacteristicValueChangeText2"></p>
+    <div class="row">
+        <button type="button" class="btn" onclick="onBLECharacteristicValueChangeText()">监听返回数据事件</button>
+        <button type="button" class="btn" onclick="offBLECharacteristicValueChangeText()">关闭返回数据事件监听</button>
+    </div><br>
+
+    <p id="connectBLEDeviceText"></p>
+    <p id="connectBLEDeviceText2"></p>
+    <input type="text" placeholder="请输入设备mac地址" id="mac_input" /><br>
+    <div class="row">
+        <button type="button" class="btn" onclick="connectBLEDevice()">连接蓝牙外设</button>
+        <button type="button" class="btn" onclick="disconnectBLEDevice()">断开设备连接</button>
+    </div><br>
+
+
+    <p id="startDiscoveryText"></p>
+    <p id="startDiscoveryText2"></p>
+    <div class="row">
+        <button type="button" class="btn" onclick="startBluetoothDevicesDiscovery()">开始扫描蓝牙设备</button>
+        <button type="button" class="btn" onclick="stopBluetoothDevicesDiscovery()">停止扫描蓝牙设备</button>
+    </div><br>
+
+    <p id="getBluetoothDevicesText"></p>
+    <p id="getBluetoothDevicesText2"></p>
+
+    <div class="row">
+        <button type="button" class="btn" onclick="getBluetoothDevices()">获取所有已发现的蓝牙设备</button>
+    </div><br>
+
+    <p id="getBlueStateText"></p>
+    <p id="getBlueStateText2"></p>
+    <div class="row">
+        <button type="button" class="btn" onclick="getBluetoothAdapterState()">获取本机蓝牙模块状态</button>
+    </div><br>
+
+
+
+    <p id="getConnectDevice"></p>
+    <p id="getConnectDevice2"></p>
+    <div class="row">
+        <button type="button" class="btn" onclick="getConnectedBluetoothDevices()">获取已连接的蓝牙外设</button>
+    </div><br>
+
+    <p id="writeValueText"></p>
+    <p id="writeValueText2"></p>
+    <input type="text" placeholder="请输入SERVICEID" id="serviceId_input" value="00003802-0000-1000-8000-00805f9b34fb"/>tttt<br>
+    <input type="text" placeholder="请输入characteristicId" id="characteristicId_input" value="00004a03-0000-1000-8000-00805f9b34fb"/><br>
+    <input type="text" placeholder="请输入消息" id="message_input" value="0x000x210x050x00" /><br>
+    <div class="row">
+        <button type="button" class="btn" onclick="writeValue()">写入数据</button>
+    </div><br>
+
+
+
+</div>
+
+</body>
+
+
+</html>

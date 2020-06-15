@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+		<meta charset="utf-8">
+		<title>短信面板</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="css/app.css"/>
+		<style>
+			.title{
+				margin: 20px 15px 7px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			
+		</style>
+	</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">短信跳板</h1>
+	</header>
+	<div class="mui-content">
+		<div class="title">
+            短信跳板
+        </div>
+
+        <div class="mui-card">
+        	<ul class="mui-table-view">
+        		<li class="mui-table-view-cell mui-collapse mui-active">
+                    <a class="mui-navigate-right" href="#" id="titleId0">目标手机号码：</a>
+                    <div class="mui-collapse-content">
+                        <div class="mui-input-row" style="margin: 10px 5px;">
+                            <input type="text" id="reqContent" />
+                        </div>
+                    </div>
+                </li>
+
+                <li class="mui-table-view-cell mui-collapse mui-active">
+                    <a class="mui-navigate-right" href="#" id="titleId0">发送的短信内容：</a>
+                    <div class="mui-collapse-content">
+                        <div class="mui-input-row" style="margin: 10px 5px;">
+                            <input type="text" id="reqContent1" />
+                        </div>
+                    </div>
+                </li>
+
+                <li class="mui-table-view-cell">
+                    <a href="javascript:void(0);" onclick="startOutPay();">
+                        <div class="mui-media-body" style="text-align: center;">
+                            开始发送
+                        </div>
+                    </a>
+                </li>
+        	</ul>
+        </div>
+	</div>
+</body>
+
+<script type="text/javascript">
+	function startOutPay(){
+		var mobileNo = document.getElementById("reqContent").value;//手机号
+    	var contentNo = document.getElementById("reqContent1").value;//短信内容
+
+    	MessageUI(mobileNo,contentNo);
+	}
+</script>
+</html>

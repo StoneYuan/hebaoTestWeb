@@ -6,48 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" /> 
   <meta name="apple-mobile-web-app-capable" content="yes" /> 
   <meta name="apple-mobile-web-app-status-bar-style" content="black" /> 
-  <script type="text/javascript" src="js2/jquery.js"></script> 
-  <script type="text/javascript" src="js_ts/hbts.js"></script> 
+  <!-- <script type="text/javascript" src="js2/jquery.js"></script>  -->
+  <script type="text/javascript" src="hbjs/hbts.js"></script> 
+  <script src="libs/vconsole.min.js"></script>
+  <script>
+    var vConsole = new VConsole();
+  </script>
   <link rel="stylesheet" href="css/mui.min.css" /> 
-  <style type="text/css">
-    #list {
-      /*避免导航边框和列表背景边框重叠，看起来像两条边框似得；*/
-      margin-top: -1px;
-    }
-  </style> 
-  <style>
-html,body {
-    background-color: beige;
-}
-
-.mui-bar .mui-pull-left .mui-icon {
-    padding-right: 5px;
-    font-size: 28px;
-}
-
-.mui-bar .mui-btn {
-    font-weight: normal;
-    font-size: 17px;
-}
-
-.mui-bar .mui-btn-link {
-    top: 1px;
-}
-
-.mui-content img {
-    width: 100%;
-}
-
-.hm-description {
-    margin: 15px;
-}
-
-.hm-description>li {
-    font-size: 14px;
-    color: #8f8f94;
-}
-
-</style> 
  </head> 
  <body> 
   <!--     <header id="header" class="mui-bar">
@@ -59,443 +24,53 @@ html,body {
    <ul class="mui-table-view mui-grid-view mui-grid-9"> 
      
   
-    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"> <a onclick="tesp()"> <span class="mui-icon mui-icon-home"></span> 
-      <div class="mui-media-body">
-        设置
-      </div> </a> </li> 
+    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"> 
+      <a href="pages/setting.html"> 
+        <span class="mui-icon mui-icon-gear"></span> 
+        <div class="mui-media-body">设置</div> 
+      </a> 
+    </li> 
     
+    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+        <a href="pages/tiaoban.html"> 
+        <span class="mui-icon mui-icon-navigate"></span> 
+        <div class="mui-media-body">跳板</div>
+       </a>
+    </li> 
 
-      <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"> <a href="pages/tiaoban.html"> <span class="mui-icon mui-icon-home"></span> 
-        <div class="mui-media-body">
-          跳板 
-        </div> </a> </li> 
-
-        <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"> <a href="pages/urltaken.html"> <span class="mui-icon mui-icon-home"></span> 
-          <div class="mui-media-body">
-            协议拦截 
-        </div> </a> </li> 
-
-    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"> <a href="pages/toCMPPage.html"> <span class="mui-icon mui-icon-home"></span> 
-      <div class="mui-media-body">
-        至原生页 
-      </div> </a> </li> 
-
-     
-
-    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"> <a href="toOCR.html"> <span class="mui-icon mui-icon-home"></span> 
-      <div class="mui-media-body">
-        OCR 
-      </div> </a> </li> 
-    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"> <a href="mailist.html"> <span class="mui-icon mui-icon-home"></span> 
-      <div class="mui-media-body">
-        通讯录 
-      </div> </a> </li> 
-    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"> <a href="H5fetchPayPlug.html"> <span class="mui-icon mui-icon-home"></span> 
-      <div class="mui-media-body">
-        支付 
-      </div> </a> </li> 
-    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"> <a href="callToPayRecharge.html"> <span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        充值 
-      </div> </a> </li> 
-
-
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href=" checkIsLocalNum.html "> <span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        是否本机 
-      </div> </a></li>
-
-
-
-
-     
-      <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href="
-        PartySchool://?jumptype=hepay "><span class=" mui-icon mui-icon-home "></span> 
-    <div class=" mui-media-body ">
-      拉起党建云 
-    </div> </a></li> 
-  <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href=" hefeixin:// "><span class="
-        mui-icon mui-icon-home "></span> 
-    <div class=" mui-media-body ">
-      调起和飞信 
-    </div> </a></li> 
-
-
-
-      <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "> <a href=" javascript:void(0); " onclick="hbts.deviceInfo();"> <span class=" mui-icon mui-icon-home "></span> 
-        <div class=" mui-media-body ">
-         设备信息
-        </div> </a> </li> 
-      <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href="
-      javascript:void(0); " onclick="hbts.coupon();"> <span class=" mui-icon mui-icon-home "></span> 
-        <div class=" mui-media-body ">
-          优惠劵I 
-        </div> </a></li> 
-      <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href="
-            javascript:void(0); " onclick="hbts.getLocationInfo() "> <span class=" mui-icon mui-icon-home "></span> 
-        <div class=" mui-media-body ">
-          定位功能 
-        </div> </a></li> 
-      <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href="
-            javascript:void(0); " onclick="hbts.exitHebao(); "><span class=" mui-icon mui-icon-home "></span> 
-        <div class=" mui-media-body ">
-          退出和包 
-        </div> </a></li> 
-      <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href="
-            javascript:void(0); " onclick="hbts.shareAction();"><span class=" mui-icon mui-icon-home "></span> 
-        <div class=" mui-media-body ">
-          分享功能 
-        </div> </a></li> 
-      <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href="
-            javascript:void(0); " onclick="hbts.shareWXMiniApp();"><span class=" mui-icon mui-icon-home "></span> 
-        <div class=" mui-media-body ">
-          分享微信小程序 
-        </div> </a></li> 
-      <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href="
-            javascript:void(0); " onclick="hbts.takePhoto();"> <span class=" mui-icon mui-icon-home " id=" CmpTakePhoto "></span> 
-        <div class=" mui-media-body ">
-          Cmp拍照 
-        </div> </a></li> 
-      <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href="
-            javascript:void(0); " onclick="hbts.setTitleMenuList();"> <span class=" mui-icon mui-icon-home "></span> 
-        <div class=" mui-media-body ">
-          动态菜单 
-        </div> </a></li>    
-
-
-
-      <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href="
-          javascript:void(0); " onclick="hbts.removeTitleMenuList()"> <span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        清空动态菜单 
-      </div> </a></li> 
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href="
-          javascript:void(0); " onclick="hbts.openMapLocation();"> <span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        拉起地图 
-      </div> </a></li> 
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href="
-        javascript:void(0); " onclick="hbts.savePicToAlbum()"> <span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        保存图片 
-      </div> </a></li> 
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href="
-          javascript:void(0); " onclick="hbts.readCardInfo()"><span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        识别名片 
-      </div> </a></li> 
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href="
-          javascript:void(0); " onclick="hbts.scanCodeByApp()"> <span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        扫一扫 
-      </div> </a></li> 
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href="
-            javascript:void(0); " onclick="hbts.scanCodeByAppWithParam()"> <span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        扫一扫原生处理 
-      </div> </a></li> 
-
-    
-      <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href=" javascript:void(0); " onclick="
-        hbts.shareToWeChat();"><span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        分享到微信 
-      </div> </a></li> 
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href=" javascript:void(0); " onclick="
-        hbts.shareToQQ()"><span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        分享到QQ
-      </div> </a></li> 
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href=" javascript:void(0); " onclick="
-        hbts.shareToSinaWeibo();"><span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        分享到微博 
-      </div> </a></li>    
-      <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href=" javascript:void(0); " onclick="
-        hbts.checkPayPassword()"><span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        传支付密码 
-      </div> </a></li> 
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href=" javascript:void(0); " onclick="
-        hbts.getTokenForH5()"><span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        获取token 
-      </div> </a></li> 
-
-      <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href=" javascript:void(0); " onclick="
-        hbts.openMigu()"><span class=" mui-icon
-          mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        调起咪咕 
-      </div> </a></li> 
-
-      <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a onclick="
-        getNetworkType();"><span class=" mui-icon mui-icon-home "></span> 
-    <div class=" mui-media-body ">
-      网络状态 
-    </div> </a></li> 
-
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a onclick="
-      mui.prompt('','请输入手机号码','输入',['拨打','取消'],alTocallPhone,'div') "><span class=" mui-icon mui-icon-home "></span> 
-  <div class=" mui-media-body ">
-    拨打电话 
-  </div> </a></li> 
-      
-  
-
-  <!-- CmpCmpDailNumber({phoneNumber:''}); -->
-
-
-
-
+    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"> 
+      <a href="pages/urltaken.html"> 
+         <span class="mui-icon mui-icon-paperclip"></span> 
+         <div class="mui-media-body">协议拦截 </div> 
+      </a>
+    </li> 
    
+    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+      <a href="pages/funclist.html"> 
+      <span class="mui-icon mui-icon-starhalf"></span> 
+      <div class="mui-media-body">大杂烩 </div>
+     </a>
+    </li>  
 
-      <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href="
-        lifeCheckPlus.html "><span class=" mui-icon mui-icon-home "></span> 
-    <div class=" mui-media-body ">
-      国政通优化(支持他人) 
-    </div> </a></li> 
+    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+      <a href="pages/subs/moreDetails.html?fid=template"> 
+      <span class="mui-icon mui-icon-flag"></span> 
+      <div class="mui-media-body">页面模版</div>
+     </a>
+    </li>  
 
-
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href=" cmpOutPay.html "><span class="
-      mui-icon mui-icon-home "></span> 
-  <div class=" mui-media-body ">
-    支付能力外放 
-  </div> </a></li> 
-<li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href=" messageUI.html "><span class="
-      mui-icon mui-icon-home "></span> 
-  <div class=" mui-media-body ">
-    拉起短信面板 
-  </div> </a></li> 
-
-  <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href="
-    checkDetails.html "><span class=" mui-icon mui-icon-home "></span> 
-<div class=" mui-media-body ">
-  账单条件查询 
-</div> </a></li> 
-<li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href="
-    billDetails.html "><span class=" mui-icon mui-icon-home "></span> 
-<div class=" mui-media-body ">
-  账单详情查询 
-</div> </a></li> 
-
-<li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href=" hjq.html "><span class="
-  mui-icon mui-icon-home "></span> 
-<div class=" mui-media-body ">
-和家亲测试页面 
-</div> </a></li> 
-
-
-<li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href=" youke.html "><span class="
-  mui-icon mui-icon-home "></span> 
-<div class=" mui-media-body ">
-游客模式拉起登录页面 
-</div> </a></li> 
-
-<li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href="
-  ditie_liangdu.html "><span class=" mui-icon mui-icon-home "></span> 
-<div class=" mui-media-body ">
-调节地铁亮度 
-</div> </a></li> 
-<li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href="
-  miniApp_huanqi.html "><span class=" mui-icon mui-icon-home "></span> 
-<div class=" mui-media-body ">
-唤起微信小程序 
-</div> </a></li> 
-
-<li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href="
-  billDetailsISKCD.html "><span class=" mui-icon mui-icon-home "></span> 
-<div class=" mui-media-body ">
-亲属卡交易详情 
-</div> </a></li> 
-
-
-<li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href="
-  bankCardDesc.html "><span class=" mui-icon mui-icon-home "></span> 
-<div class=" mui-media-body ">
-银行卡详情页 
-</div> </a></li> 
-
-
-  
-
-
-
-
-
-
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href=" javascript:void(0); " onclick="
-          CmpStartAnyChatJs() "><span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        双录 
-      </div> </a></li> 
-  
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href=" javascript:void(0); " onclick="
-          CMPResetPayPassword() "><span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        重置支付密码 
-      </div> </a></li> 
-
-  
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a onclick="
-          billChecking() "><span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        拉起账单 
-      </div> </a></li> 
-   
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a href=" javascript:void(0); " onclick="
-          goCardClipIndex(); "><span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        拉起原生名片 
-      </div> </a></li> 
- 
-    
-
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a onclick="
-          goSinglePacketsContactWithName() "><span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        通讯录单选(带名字) 
-      </div> </a></li> 
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a onclick="
-          goSinglePacketsContact() "><span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        通讯录单选 
-      </div> </a></li> 
-   
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a onclick="
-          getContacts() "><span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        获取通讯录列表 
-      </div> </a></li> 
- 
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a onclick="
-          startHtcsCode() "><span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        初始化地铁SDK 
-      </div> </a></li> 
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a onclick="
-          CmpSetCsMetroValue( 'helloworld' ) "><span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        地铁写缓存 
-      </div> </a></li> 
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a onclick="
-          CmpGetCsMetroValue() "><span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        地铁读缓存 
-      </div> </a></li> 
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a onclick="
-          CmpGetSsoUrl( 'https://www.baidu.com' ) "><span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        单点登录 
-      </div> </a></li> 
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a onclick="
-          sendToHtcsCode() "><span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        发送信息给地铁SDK 
-      </div> </a></li> 
-
-
- 
-
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a onclick="
-          downLatestApp();"><span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        H5检测更新 
-      </div> </a></li> 
-   
-    <li class=" mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 "><a onclick="
-          showRequestNotificationPermissionDialog() "><span class=" mui-icon mui-icon-home "></span> 
-      <div class=" mui-media-body ">
-        推送弹窗拉起 
-      </div> </a></li> 
-      
-
+    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+      <a href="pages/htmlLab.html"> 
+      <span class="mui-icon mui-icon-flag"></span> 
+      <div class="mui-media-body">标签能力</div>
+     </a>
+    </li>  
    </ul> 
-   <div class=" mui-card "> 
-    <ul class=" mui-table-view "> 
-     <li class=" mui-table-view-cell mui-collapse " id=" titleId0 " style=" display: none; "><a class="
-          mui-navigate-right " href=" # ">通讯录数据：</a> 
-      <div class=" mui-collapse-content "> 
-       <div class=" mui-input-row " style=" margin: 10px 5px; "> 
-        <textarea id=" content0 " rows=" 20 " placeholder=" 多行文本框 "></textarea> 
-       </div> 
-      </div> </li> 
-     <li class=" mui-table-view-cell mui-collapse "><a class=" mui-navigate-right " href=" # " id=" titleId1 ">响应数据：</a> 
-      <div class=" mui-collapse-content "> 
-       <div class=" mui-input-row " style=" margin: 10px 5px; "> 
-        <textarea id=" content " rows=" 20 " placeholder=" 多行文本框 "></textarea> 
-       </div> 
-      </div> </li> 
-     <li class=" mui-table-view-cell mui-collapse "><a class=" mui-navigate-right " href=" # " id=" titleId2 ">响应数据2：</a> 
-      <div class=" mui-collapse-content "> 
-       <div class=" mui-input-row " style=" margin: 10px 5px; "> 
-        <textarea id=" content2 " rows=" 20 " placeholder=" 多行文本框 "></textarea> 
-       </div> 
-      </div> </li> 
-     <li class=" mui-table-view-cell mui-collapse " id=" li3 "> </li> 
-    </ul> 
-   </div> 
   </div> 
-  <script type=" text/javascript " src=" js/core-3.1.1.min.js "></script> 
-  <script src=" libs/juicer.js " type=" text/javascript " charset=" utf-8 "></script> 
+  <!-- <script type=" text/javascript " src=" js/core-3.1.1.min.js "></script>  -->
   <script src=" js/mui.min.js "></script> 
-  <script src=" http://wechatfe.github.io/vconsole/lib/vconsole.min.js?v=3.0.0.0 "></script> 
-  <script>
-    function getNetworkType_callback(e){
-        alert(e);
-    }
-
-    function getTokenForH5CallBack(status,token){
-      alert('status: '+status + " token: "+ token);
-    }
-
-    function alTocallPhone(e){
-      CmpCmpDailNumber({phoneNumber:e.value})
-    }
-
-    </script>  
-  <script id=" tpl" type="text/template">
-          <div class="mui-slider-group mui-slider-loop">
-            {@each REC as it,index} {@if index==0}
-            <div class="mui-slider-item mui-slider-item-duplicate">
-              <a href="${it.MSGDESTURL}">
-                <img src="${it.MSGIMG}">
-              </a>
-            </div>
-            <!-- 第一张 -->
-            <div class="mui-slider-item">
-              <a href="${it.MSGDESTURL}">
-                <img src="${it.MSGIMG}">
-              </a>
-            </div>
-            {@else if index === count}
-            <!-- 第四张 -->
-            <div class="mui-slider-item">
-              <a href="${it.MSGDESTURL}">
-                <img src="${it.MSGIMG}">
-              </a>
-            </div>
-            <!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
-            <div class="mui-slider-item mui-slider-item-duplicate">
-              <a href="${it.MSGDESTURL}">
-                <img src="${it.MSGIMG}">
-              </a>
-            </div>
-            {@else}
-            <div class="mui-slider-item">
-              <a href="${it.MSGDESTURL}">
-                <img src="${it.MSGIMG}">
-              </a>
-            </div>
-            {@/if} {@/each}
-          </div>
-          <div class="mui-slider-indicator">
-            {@each REC as it,index} {@if index==0}
-            <div class="mui-indicator mui-active"></div>
-            {@else}
-            <div class="mui-indicator"></div>
-            {@/if} {@/each}
-          </div>
-          </script> 
  </body>
 </html>
+
+
+

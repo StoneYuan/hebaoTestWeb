@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>和包测试页</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../css/app.css"/>
+		<style>
+			.interface-name{
+				color: darkgray;
+				font-size: small;
+				white-space: normal;
+			}
+		</style>
+		<script src="../libs/vconsole.min.js"></script>
+  		<script>
+    		var vConsole = new VConsole();
+  		</script>
+		<script type="text/javascript" src="../hbjs/hbts.js"></script> 
+		<style>
+			.title{
+				margin: 20px 15px 7px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">大杂烩</h1>
+		</header>
+		<div class="mui-content" id="table-content">
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../libs/mustache.min.js"></script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+	</script>
+	<script type="text/tmplate" id="tmplate">
+		<ul class="mui-table-view">
+			{{#list}}
+			<li class="mui-table-view-cell">
+				<a href= {{link}} onclick = {{action}} >  
+					<div class="mui-media-body">
+						{{index}}. {{name}}
+					</div>
+					<div class='interface-name'>  {{desc}} </div>
+				</a>
+			</li>
+			{{/list}}
+		</ul>	
+	</script>
+	<script type="application/javascript">
+		//实例参数
+		var _nolink = "javascript:void(0);";
+        var data = { 
+			list : [
+		
+				{name: "OCR能力", link: "subs/moreDetails.html?fid=callOCR", action: null,  desc: "cmpayCallOCRFront、cmpayCallOCRBack、getBusinessInfo、getBankCardInfo"},
+				{name: "通讯录", link: "subs/moreDetails.html?fid=callContacts", action: null, desc: "goSinglePacketsContact、goSinglePacketsContactWithName、getContacts、CmpSaveToAddrList、CmpDeleFromAddrList"},	
+				{name: "充值", link: "subs/moreDetails.html?fid=recharge", action: null, desc: "callToPayRecharge"},
+				{name: "国政通-活体检测", link: "subs/moreDetails.html?fid=vivoDetection", action: null, desc: "doVivoDetectionNew"},
+				{name: "支付", link: "subs/moreDetails.html?fid=cmpCommonPay", action: null, desc: "cmpCommonPay"},
+				{name: "游客模式拉起登录页面 ", link: "subs/moreDetails.html?fid=touristLogin", action: null, desc: "touristLogin"},
+				{name: "拉起短信面板 ", link: "subs/moreDetails.html?fid=evokeMsgUI", action: null, desc: "MessageUI"},
+				{name: "唤起小程序", link: "subs/moreDetails.html?fid=openMiniApp", action: null, desc: "openMiniApplication"},
+				{name: "亮度调节", link: "subs/moreDetails.html?fid=changBright", action: null, desc: "CmpSetOpenBrightnessValue、CmpSetColseBrightnessValue"},
+				{name: "拉起账单", link: _nolink, action: "hbts.billChecking();", desc: "billChecking"},
+				{name: "账单条件查询", link: "subs/moreDetails.html?fid=billCheckingDetails", action: null, desc : "billCheckingDetails"},
+				{name: "账单详情查询", link: "subs/moreDetails.html?fid=billDetails", action: null, desc: "billDetails"},
+				{name: "支付能力外放", link: "subs/moreDetails.html?fid=cmpOutPay", action: null, desc : "PaymentMethod/fetchMethodiPosVC"},
+
+				{name: "单点登录", link: "subs/moreDetails.html?fid=ssoLogin", action: null ,desc : "CmpGetSsoUrl"},
+			
+				{name: "调起咪咕", link: _nolink, action: "hbts.openMigu()" ,desc : "cmpOpenDeepLinkApp"},
+				{name: "定位功能", link: _nolink, action: "hbts.getLocationInfo()",desc : "getLocationInfo"},
+				{name: "拍照功能", link: _nolink, action: "hbts.takePhoto();",desc : "CmpTakePhoto"},
+				{name: "拉起地图", link: _nolink, action: "hbts.openMapLocation();",desc : "CmpOpenMapLocation"},
+				{name: "拨打电话", link: _nolink, action: "hbts.callPhone();",desc : "CmpCmpDailNumber"},
+
+				{name: "调用支付插件-旧接口", link: _nolink, action: "hbts.checkPayPassword();",desc : "CMPCheckPayPassword"},
+				{name: "调用支付插件-新接口", link: _nolink, action: "hbts.checkPayPasswordNew();",desc : "CMPResetPayPasswordNew"},
+			    {name: "重置支付密码", link: _nolink, action: "hbts.resetPayPassword();",desc : "CMPResetPayPassword"},
+
+				{name: "分享功能", link: _nolink, action: "hbts.shareAction();",desc : "CMPShareAction"},
+				{name: "分享到微信", link: _nolink, action: "hbts.shareToWeChat();",desc : "shareToWeChat"},
+				{name: "分享到QQ", link: _nolink, action: "hbts.shareToQQ();",desc : "shareToQQ"},
+				{name: "分享到微博", link: _nolink, action: "hbts.shareToSinaWeibo();",desc : "shareToSinaWeibo"},
+				{name: "分享微信小程序 ", link: _nolink, action: "hbts.shareWXMiniApp();",desc : "H5shareToWeChatMiniApps"},
+
+
+				{name: "保存图片", link: _nolink, action: "hbts.savePicToAlbum();",desc : "CmpSavePicToAlbum"},
+				{name: "识别名片", link: _nolink, action: "hbts.readCardInfo();",desc : "CmpReadCardInfo"},
+				{name: "扫一扫", link: _nolink, action: "hbts.scanCodeByApp();",desc : "scanCodeByApp"},
+				{name: "扫一扫带参数", link: _nolink, action: "hbts.scanCodeByAppWithParam()",desc : "scanCodeByAppWithParam"},
+
+				{name: "拉起原生名片", link: _nolink, action: "hbts.goCardClipIndex();",desc : "goCardClipIndex"},
+				
+				{name: "动态菜单", link: _nolink, action: "hbts.setTitleMenuList();",desc : "H5CmpSetTitleMenuList"},
+				{name: "清空动态菜单", link: _nolink, action: "hbts.removeTitleMenuList();",desc : "H5CmpRemoveTitleMenuList"},
+
+
+				{name: "网络状态", link: _nolink, action: "hbts.networkType();",desc : "getNetworkType"},
+				{name: "获取统一认证token", link: _nolink, action: "hbts.getTokenForH5();",desc : "getTokenForH5"},
+				{name: "检测更新", link: _nolink, action: "hbts.checkAppVersion();",desc : "downLatestApp"},
+
+				{name: "是否本机 ", link: _nolink, action: "hbts.checkIsLocalNumber()",desc : "CmpCheckIsLocalNumber"},
+				{name: "设备信息", link: _nolink, action: "hbts.deviceInfo();",desc : "cmpNativeCall"},
+
+				{name: "我要反馈", link: _nolink, action: "hbts.feedback();",desc : "CmpNeedFeedback"},
+				{name: "我的客服", link: _nolink, action: "hbts.serviceOnline();",desc : "CmpServiceOnline"},
+
+				// {name: "初始化地铁SDK", link: _nolink, action: "hbts.startHtcsCode();",desc : "startHtcsCode"},
+				{name: "发送信息地铁SDK", link: _nolink, action: "hbts.sendToHtcsCode();",desc : "sendToHtcsCode"},
+				{name: "地铁写缓存", link: _nolink, action: "hbts.setCsMetroValue();",desc : "CmpSetCsMetroValue"},
+				{name: "地铁读缓存", link: _nolink, action: "hbts.getCsMetroValue();",desc : "CmpGetCsMetroValue"},
+
+				{name: "交易查询-cativeCall", link: _nolink, action: "hbts.cativeCall('90001');",desc : ""},
+				{name: "密码管理-cativeCall", link: _nolink, action: "hbts.cativeCall('90002');",desc : ""},
+				{name: "充值-cativeCall", link: _nolink, action: "hbts.cativeCall('90003');",desc : ""},
+				{name: "提现-cativeCall", link: _nolink, action: "hbts.cativeCall('90004');",desc : ""},
+				{name: "余额-cativeCall", link: _nolink, action: "hbts.cativeCall('90005');",desc : ""},
+
+				{name: "退出和包", link: _nolink, action: "hbts.exitHebao();",desc : "CmpExitAction"},
+
+
+				{name: "拉起党建云", link: "PartySchool://?jumptype=hepay", action: null,desc : ""},
+				{name: "调起和飞信", link: "hefeixin://", action: null,desc : ""},
+
+			]
+		};
+
+		//可以将索引在所要使用的json对象里
+		var list = data.list
+		for(var i=0;i<list.length;i++){
+			list[i].index = i+1;
+		}
+
+        var template = document.getElementById("tmplate").innerHTML;
+        var view = Mustache.render(template, data);
+		document.getElementById("table-content").innerHTML = view;
+
+    </script>
+</html>
+ 
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- //{name: "OCR能力", link: "subs/toOCR.html", action: null},
+//{name: "通讯录", link: "subs/mailist.html", action: null},
+//{name: "充值", link: "subs/callToPayRecharge.html", action: null},
+//{name: "游客模式拉起登录页面", link: "subs/youke.html", action: null},
+//{name: "支付", link: "subs/H5fetchPayPlug.html", action: null},
+//{name: "拉起短信面板 ", link: "subs/messageUI.html", action: null},
+//{name: "账单条件查询", link: "subs/checkDetails.html", action: null},
+//{name: "账单详情查询", link: "subs/billDetails.html ", action: null},
+//{name: "国政通优化(支持他人)", link: "subs/lifeCheckPlus.html", action: null},
+//{name: "支付能力外放", link: "subs/cmpOutPay.html", action: null},
+//{name: "和家亲测试页面", link: "subs/hjq.html", action: null},
+//{name: "调节地铁亮度", link: "subs/ditie_liangdu.html", action: null},
+//{name: "唤起微信小程序", link: "subs/miniApp_huanqi.html", action: null},
+//{name: "银行卡详情页", link: "subs/bankCardDesc.html", action: null}, -->

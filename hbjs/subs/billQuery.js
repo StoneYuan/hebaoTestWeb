@@ -5,7 +5,7 @@
     hbts.billChecking = function(){
         var isWk = isWkjs();
         if(isWk){
-
+            hebaoWkjs.doCall('billChecking');
         }else{  
             billChecking();
         }

@@ -76,7 +76,13 @@ function ImportJSFileToJs(e){
             $.callBackGetPacketsContacts = function(r) {
                 doLog("回调结果："+r);
             }
-            callToPayRecharge(e.amount);
+            var isWk = isWkjs(); 
+
+            if (isWk) {
+                hebaoWkjs.doCall('callToPayRecharge',e);
+            }else{
+                callToPayRecharge(e.amount);
+            }
         }
     };
 
@@ -101,7 +107,12 @@ function ImportJSFileToJs(e){
             },
         },
         handle : function (e){
-            MessageUI(e.mobileNo,e.contentNo);
+            var isWk = isWkjs(); 
+            if (isWk) {
+                MessageUI.doCall('callToPayRecharge',e);
+            }else{
+                MessageUI(e.mobileNo,e.contentNo);
+            }
         }
     };
 
@@ -193,8 +204,6 @@ function ImportJSFileToJs(e){
             }
         }   
     }
-
-
 
 
     hbts.changBright = {
@@ -291,17 +300,13 @@ function ImportJSFileToJs(e){
     //退出和包
     hbts.exitHebao = function(){
         var isWk = this.isWkjs();
-
         var mys = confirm("确定要退出和包吗？");
-        
         if(mys == true){
             if (!isWk) {
                 CmpExitAction();
             }else{
                 hebaoWkjs.doCall('CmpExitAction');
             }
-        }else if(mys == false){
-
         }
     };
 
@@ -321,7 +326,7 @@ function ImportJSFileToJs(e){
         if (!isWk) {
             H5shareToWeChatMiniApps(); 
         }else{
-
+            hebaoWkjs.doCall('H5shareToWeChatMiniApps');
         }
     };
 
@@ -331,7 +336,7 @@ function ImportJSFileToJs(e){
         if (!isWk) {
             CmpTakePhoto(0,0); 
         }else{
-
+            hebaoWkjs.doCall('CmpTakePhoto',{});
         }
     };
 
@@ -342,7 +347,7 @@ function ImportJSFileToJs(e){
         if (!isWk) {
             H5CmpSetTitleMenuList(); 
         }else{
-
+            hebaoWkjs.doCall('H5CmpSetTitleMenuList');
         }
     };
 
@@ -353,7 +358,7 @@ function ImportJSFileToJs(e){
         if (!isWk) {
             H5CmpRemoveTitleMenuList(); 
         }else{
-
+            hebaoWkjs.doCall('H5CmpRemoveTitleMenuList');
         }
     };
 

@@ -508,7 +508,10 @@ function ImportJSFileToJs(e){
         if (!isWk) {            
             getTokenForH5() ;
         }else{
-
+            hebaoWkjs.doCall('getTokenForH5',function(r){
+                var j = JSON.stringify(r);
+                ShowAlert(j);
+            });
         }
     };
 

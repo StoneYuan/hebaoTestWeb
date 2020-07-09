@@ -63,13 +63,13 @@
             <div class="mui-card">
                 <div class="heobao-info-panel">
                 <p></p>
-                <p id="show-expand"></p>  
                 </div>     
             </div>
         </div>
         <h5 class="mui-content-padded">日志输出 <a id="clear-log" href="javascript:void(0);" onclick="clearlog()">清除日志</a></h5> 
         <div class="mui-card">
             <textarea class="hebao-log-panel" id ="log-output" disabled></textarea> 
+            <div id="show-expand"></div>  
         </div>   
         <div class="mui-card">
             <div id="hebao-js-button" onclick="startWork()">
@@ -180,7 +180,7 @@
             eInf.getElementsByTagName('h5')[0].innerHTML = info.categroy;
             eInf.getElementsByTagName('p')[0].innerText = info.descText;
             if (info.descHtml) {
-                eInf.getElementsByTagName('p')[1].innerHTML = info.descHtml;
+                document.getElementById('show-expand').innerHTML = info.descHtml;
             }
         }else{
             eInf.style.display = "none";
@@ -262,6 +262,9 @@
         var logp = document.getElementById('log-output');
         logp.innerHTML = "";
         logp.scrollTop = logp.scrollHeight;
+        // if (info.descHtml) {
+        //     document.getElementById('show-expand').innerHTML = info.descHtml;
+        // }
     }
 
 </script>

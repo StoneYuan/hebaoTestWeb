@@ -33,33 +33,50 @@
         },
         handle : function (e){
             var type = parseInt(e.type);
+            var isWk = this.isWkjs();
             switch (type) {
                 case 1:{
                     $.getFrontIdCard = function(r) {
                         doLog(r);
                     }
-                    cmpay.callOCRFront();
+                    if (!isWk) {
+                        cmpay.callOCRFront();
+                    }else{
+                        hebaoWkjs.doCall('cmpayCallOCRFront');
+                    }
                 }
                 break;
                 case 2:{
                     $.getBackIdCard = function(r) {
                         doLog(r);
                     }
-                    cmpay.callOCRBack();
+                    if (!isWk) {
+                        cmpay.callOCRBack();
+                    }else{
+                        hebaoWkjs.doCall('cmpayCallOCRBack');
+                    }
                 }
                 break;    
                 case 3:{
                     $.callbackBusinessInfo = function(r) {
                         doLog(r);
                     }
-                    getBusinessInfo();
+                    if (!isWk) {
+                        getBusinessInfo();
+                    }else{
+                        hebaoWkjs.doCall('getBusinessInfo');
+                    }
                 }
                 break; 
                 case 4:{
                     $.callbackBankInfo = function(r) {
                         doLog(r);
                     }
-                    getBankCardInfo();
+                    if (!isWk) {
+                        getBankCardInfo();
+                    }else{
+                        hebaoWkjs.doCall('getBankCardInfo');
+                    }
                 }
                 break; 
                 default:

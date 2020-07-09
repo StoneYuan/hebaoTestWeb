@@ -48,7 +48,12 @@
                 identiyCode = "";
                 username = "";
             }
-            doVivoDetectionNew(isSelf,identiyCode,username,"");
+            var isWk = this.isWkjs();
+            if (!isWk) {
+                doVivoDetectionNew(isSelf,identiyCode,username,"");
+            }else{
+                hebaoWkjs.doCall('doVivoDetectionNew',e);
+            }
         }
     };
 }(window,hbts));

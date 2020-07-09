@@ -370,7 +370,7 @@ function ImportJSFileToJs(e){
             CmpOpenMapLocation( '长沙' , '长沙天园假日小区' , '28.197272' , '112.983306'
             , '28.196794' , '113.07177' );
         }else{
-
+            hebaoWkjs.doCall('CmpOpenMapLocation',{});
         }
     };
 
@@ -381,7 +381,7 @@ function ImportJSFileToJs(e){
         if (!isWk) {
             CmpSavePicToAlbum(imgUrl); 
         }else{
-
+            hebaoWkjs.doCall('CmpSavePicToAlbum',{imgUrl:imgUrl});
         }
     };
 
@@ -392,7 +392,7 @@ function ImportJSFileToJs(e){
         if (!isWk) {
             CmpReadCardInfo( 'https://wwww.baidu.com' , 'https://www.taobao.com');
         }else{
-
+            hebaoWkjs.doCall('CmpReadCardInfo',{xx1:'https://wwww.baidu.com',xx2:'https://www.taobao.com'});
         }
 
     };
@@ -403,7 +403,7 @@ function ImportJSFileToJs(e){
         if (!isWk) {
             scanCodeByApp();
         }else{
-
+            hebaoWkjs.doCall('scanCodeByApp');
         }
 
     };
@@ -415,7 +415,7 @@ function ImportJSFileToJs(e){
         if (!isWk) {
             scanCodeByAppWithParam(true);
         }else{
-
+            hebaoWkjs.doCall('scanCodeByAppWithParam',{xx:true});
         }
 
     };
@@ -427,9 +427,7 @@ function ImportJSFileToJs(e){
         if (!isWk) {
             shareToWeChat( '分享测试' , 'https://www.baidu.com' , '哈哈哈你好呀' , '' );
         }else{
-            hebaoWkjs.doCall('shareToWeChat',{
-
-            });
+            hebaoWkjs.doCall('shareToWeChat',{});
         }
 
     };
@@ -441,9 +439,7 @@ function ImportJSFileToJs(e){
         if (!isWk) {            
             shareToQQ( '分享测试' , 'https://www.baidu.com' , '哈哈哈你好呀' , '' );
         }else{
-            hebaoWkjs.doCall('shareToWeChat',{
-
-            });
+            hebaoWkjs.doCall('shareToWeChat',{});
         }
     };
 
@@ -453,9 +449,7 @@ function ImportJSFileToJs(e){
         if (!isWk) {            
             shareToSinaWeibo( '我是分享的内容', 'https://www.baidu.com') ;
         }else{
-            hebaoWkjs.doCall('shareToWeChat',{
-
-            });
+            hebaoWkjs.doCall('shareToWeChat',{});
         }
     };
 
@@ -470,7 +464,7 @@ function ImportJSFileToJs(e){
         if (!isWk) {            
             CMPCheckPayPassword();
         }else{
-
+            hebaoWkjs.doCall('CMPCheckPayPassword');
         }
     };
 
@@ -484,7 +478,7 @@ function ImportJSFileToJs(e){
         if (!isWk) {            
             CMPResetPayPasswordNew();
         }else{
-
+            hebaoWkjs.doCall('checkPayPasswordNew');
         }
     };
 
@@ -499,7 +493,7 @@ function ImportJSFileToJs(e){
         if (!isWk) {            
             CMPResetPayPassword();
         }else{
-
+            hebaoWkjs.doCall('CMPResetPayPassword');
         }
     };    
 
@@ -528,7 +522,7 @@ function ImportJSFileToJs(e){
             cmpOpenDeepLinkApp( 'miguvideo://amber_deeplink?DLSI=a75b353fe99443b5af2edd6bf443414e&amp;JA=miguvideos'
             , 'https://itunes.apple.com/cn/app/he-bao-he-bao-guan-fang-ke/id597795676?mt=8' );
         }else{
-
+            hebaoWkjs.doCall('cmpOpenDeepLinkApp',{phoneNumber : val});
         }
     };
 
@@ -546,9 +540,7 @@ function ImportJSFileToJs(e){
             if (!isWk) {
                 CmpCheckIsLocalNumber(val);
             } else {
-                hebaoWkjs.doCall('CmpCheckIsLocalNumber',{
-                    phoneNumber : val
-                });
+                hebaoWkjs.doCall('CmpCheckIsLocalNumber',{phoneNumber : val});
             }
         }
     };
@@ -575,7 +567,7 @@ function ImportJSFileToJs(e){
             if(!isWk){
                 CmpCmpDailNumber({phoneNumber:val});
             }else{
-
+                hebaoWkjs.doCall('CmpCmpDailNumber',{phoneNumber:val});
             }
         }
     };
@@ -586,7 +578,7 @@ function ImportJSFileToJs(e){
         if(!isWk){
             CmpNeedFeedback();
         }else{
-
+            hebaoWkjs.doCall('CmpNeedFeedback');
         }
     };
 
@@ -597,20 +589,9 @@ function ImportJSFileToJs(e){
         if(!isWk){
             CmpServiceOnline();
         }else{
-
+            hebaoWkjs.doCall('CmpServiceOnline');
         }
     };
-
-     //重置支付密码
-     hbts.feedback = function(){
-        var isWk = this.isWkjs();
-        if(!isWk){
-            CmpNeedFeedback();
-        }else{
-
-        }
-    };
-    
 
     //拉起原生名片 
     hbts.goCardClipIndex = function(){
@@ -618,7 +599,7 @@ function ImportJSFileToJs(e){
         if(!isWk){
             goCardClipIndex();
         }else{
-
+            hebaoWkjs.doCall('goCardClipIndex');
         }
     };
 
@@ -628,7 +609,7 @@ function ImportJSFileToJs(e){
         if(!isWk){
             CmpStartHtcsCode();
         }else{
-
+            hebaoWkjs.doCall('CmpStartHtcsCode');
         }
     };
 
@@ -639,7 +620,7 @@ function ImportJSFileToJs(e){
         if(!isWk){
             CmpSetCsMetroValue('helloworld');
         }else{
-
+            hebaoWkjs.doCall('CmpSetCsMetroValue',{value:'helloworld'});
         }
     };
 
@@ -653,7 +634,7 @@ function ImportJSFileToJs(e){
         if(!isWk){
             CmpGetCsMetroValue();
         }else{
-
+            hebaoWkjs.doCall('CmpGetCsMetroValue');
         }
     };    
 
@@ -664,7 +645,7 @@ function ImportJSFileToJs(e){
         if(!isWk){
             sendToHtcsCode();
         }else{
-
+            hebaoWkjs.doCall('sendToHtcsCode');
         }
     };    
 
@@ -674,7 +655,7 @@ function ImportJSFileToJs(e){
         if(!isWk){
             downLatestApp();
         }else{
-
+            hebaoWkjs.doCall('downLatestApp');
         }
     };    
         

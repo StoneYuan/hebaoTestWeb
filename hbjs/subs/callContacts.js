@@ -42,26 +42,39 @@
         },
         handle : function (e){
             var type = parseInt(e.type);
+            var isWk = this.isWkjs();
             switch (type) {
                 case 1:{
                     $.callBackGetPacketsContacts = function(r) {
                         doLog("回调结果："+r);
                     }
-                    goSinglePacketsContact();
+                    if (!isWk) {
+                        goSinglePacketsContact();
+                    }else{
+                        hebaoWkjs.doCall('goSinglePacketsContact');
+                    }
                 }
                 break;
                 case 2:{
                     $.callBackGetPacketsContactsWithName = function(r) {
                         doLog("回调结果："+r);
                     }
-                    goSinglePacketsContactWithName();
+                    if (!isWk) {
+                        goSinglePacketsContactWithName();
+                    }else{
+                        hebaoWkjs.doCall('goSinglePacketsContactWithName');
+                    }
                 }
                 break;    
                 case 3:{
                     $.callBackGetContacts = function(r) {
                         doLog("回调结果："+r);
                     }
-                    getContacts();
+                    if (!isWk) {
+                        getContacts();
+                    }else{
+                        hebaoWkjs.doCall('getContacts');
+                    }
                 }
                 break; 
                 case 4:{
@@ -69,7 +82,12 @@
                         doLog("回调结果："+r);
                     }
                     var _json = this.config.info.description;
-                    CmpSaveToAddrList(JSON.parse(_json), 'H5CmpSaveToAddrListCallBack');
+                    var obj = JSON.parse(_json);
+                    if (!isWk) {
+                        CmpSaveToAddrList(obj, 'H5CmpSaveToAddrListCallBack');
+                    }else{
+                        hebaoWkjs.doCall('CmpSaveToAddrList',{value:obj,callback:'H5CmpSaveToAddrListCallBack'});
+                    }
                 }
                 break; 
                 case 5:{
@@ -77,7 +95,12 @@
                         doLog("回调结果："+r);
                     }
                     var _json = this.config.info.description;
-                    CmpDeleFromAddrList(JSON.parse(_json), 'H5CmpDeleFromAddrListCallBack');
+                    var obj = JSON.parse(_json);
+                    if (!isWk) {
+                        CmpDeleFromAddrList(obj, 'H5CmpDeleFromAddrListCallBack');
+                    }else{
+                        hebaoWkjs.doCall('CmpDeleFromAddrList',{value:obj,callback:'H5CmpDeleFromAddrListCallBack'});
+                    }
                 }
                 break; 
                 default:

@@ -1,6 +1,4 @@
 ;(function($, hbts){
-
-
     //拉起账单
     hbts.billChecking = function(){
         var isWk = isWkjs();
@@ -123,5 +121,133 @@
             }
         }
     };
+
+    hbts.billRecordList = {
+        config : {
+            title : "拉起转账记录",
+            input : {
+                categroy : "信息填写",               
+                list : [
+                    {
+                        name : "账单号",
+                        key : "orderNum",
+                        placeholder : "输入"
+                    },
+                    {
+                        name : "账单时间",
+                        key : "orderDate",
+                        placeholder : "输入"
+                    },
+                    {
+                        name : "账单类型",
+                        key : "orderType",
+                        placeholder : "输入"
+                    }
+                ]
+            }
+        },
+        handle : function (e){
+            var isWk = isWkjs(); 
+            if (isWk) {
+                hebaoWkjs.doCall("gotoBillContactRecordListActivity",e);
+            } else {
+                gotoBillContactRecordListActivity(e.orderNum, e.orderDate, e.orderType);
+            }
+        }
+    };
+
+
+
+    hbts.getNewBillOrder = {
+        config : {
+            title : "拉起转账记录",
+            input : {
+                categroy : "信息填写",               
+                list : [
+                    {
+                        name : "账单类型",
+                        key : "orderType",
+                        placeholder : "输入"
+                    },
+                    {
+                        name : "账单时间",
+                        key : "time",
+                        placeholder : "输入"
+                    },
+                    {
+                        name : "收入还是支出 1只查收入，0只查支出",
+                        key : "orderType",
+                        placeholder : "输入"
+                    }
+                ]
+            }
+        },
+        handle : function (e){
+            var isWk = isWkjs(); 
+            if (isWk) {
+                hebaoWkjs.doCall("getNewBillOrder",e);
+            } else {
+                getNewBillOrder(e.orderType, e.time, e.incomeType);
+            }
+        }
+    };
+
+    hbts.notifyOperationResult = {
+        config : {
+            title : "通知账单刷新",
+            input : {
+                categroy : "信息填写",               
+                list : [
+                    {
+                        name : "账单号",
+                        key : "orderNo",
+                        placeholder : "输入"
+                    }
+                ]
+            }
+        },
+        handle : function (e){
+            e.result = '1'; 
+            var isWk = isWkjs(); 
+            if (isWk) {
+                hebaoWkjs.doCall("notifyOperationResult",e);
+            } else {
+                notifyOperationResult(e.result, e.orderNo);
+            }
+        }
+    };
+
+    hbts.doRecallTransfer = {
+        config : {
+            title : "通知账单刷新",
+            input : {
+                categroy : "信息填写",               
+                list : [
+                    {
+                        name : "账单号",
+                        key : "orderNum",
+                        placeholder : "输入"
+                    },
+                    {
+                        name : "账单类型",
+                        key : "orderType",
+                        placeholder : "输入"
+                    }
+                ]
+            }
+        },
+        handle : function (e){
+            var isWk = isWkjs(); 
+            if (isWk) {
+                hebaoWkjs.doCall("doRecallTransfer",e);
+            } else {
+                doRecallTransfer(e.orderNum, e.orderType);
+            }
+        }
+    };
+
+    
+
+    
 
 }(window,hbts));

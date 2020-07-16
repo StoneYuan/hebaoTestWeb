@@ -4,7 +4,9 @@ var needImportJs = [
     "subs/callContacts.js",
     "subs/vivoDetection.js",
     "subs/cmpCommonPay.js",
-    "subs/billQuery.js"
+    "subs/billQuery.js",
+    "subs/callNative.js",
+    "subs/wechat.js"
 ];
 
 function ImportJSFileToJs(e){
@@ -50,72 +52,152 @@ function ImportJSFileToJs(e){
 
     ImportJSFileToJs(needImportJs);
 
-    // 调用原生傻逼设计
-    // 交易查询 '90001'
-    // 密码管理 '90002'
-    // 充值 '90003'
-    // 提现 '90004'
-    // 余额 '90005'
 
-
-    hbts.recharge = {
+    //网页内部再打开另一个webview   
+    hbts.goWeb = {
         config : {
-            title : "充值",
-            input : {
-                categroy : "信息填写",
-                list :[
-                    {
-                        name : "充值金额",
-                        key : "amount",
-                        placeholder : "充值金额"
-                    }
-                ]
-            },
-        },
-        handle : function (e){
-            $.callBackGetPacketsContacts = function(r) {
-                doLog("回调结果："+r);
-            }
-            var isWk = isWkjs(); 
-
-            if (isWk) {
-                hebaoWkjs.doCall('callToPayRecharge',e);
-            }else{
-                callToPayRecharge(e.amount);
-            }
-        }
-    };
-
-
-    hbts.evokeMsgUI = {
-        config : {
-            title : "拉起短信面板",
+            title : "网页内部再打开另一个webview页面",
+            selects : [{
+                categroy : "接口类型",
+                list : [{
+                    name : "goWeb",
+                    key : "type",
+                    value : 1,
+                    cheched : true
+                },{
+                    name : "goWebNoLogin",
+                    key : "type",
+                    value : 2,
+                },{
+                    name : "ToApp",
+                    key : "type",
+                    value : 3,
+                }]
+            }],
             input : {
                 categroy : "信息填写",               
                 list :[
                     {
-                        name : "手机号码",
-                        key : "mobileNo",
-                        placeholder : "输入手机号码"
-                    },
-                    {
-                        name : "短信内容",
-                        key : "contentNo",
-                        placeholder : "输入短信内容"
+                        name : "目标地址",
+                        key : "target",
+                        placeholder : "输入目标地址"
                     }
                 ]
-            },
+            }
         },
-        handle : function (e){
-            var isWk = isWkjs(); 
-            if (isWk) {
-                MessageUI.doCall('callToPayRecharge',e);
+        handle : function(e){
+            var isWk = this.isWkjs();
+            if(!isWk){
+                if (e.type === '1') {
+                    goWeb(e.target);
+                }else if(e.type === '2'){
+                    goWebNoLogin(e.target);
+                }else{
+                    ToApp(e.target);
+                }
             }else{
-                MessageUI(e.mobileNo,e.contentNo);
+                if (e.type === '1') {
+                    hebaoWkjs.doCall("goWeb",e);
+                }else if(e.type === '2'){
+                    hebaoWkjs.doCall("goWebNoLogin",e);
+                }else{
+                    hebaoWkjs.doCall("ToApp",e);
+                }
+            }
+        }   
+    };
+
+
+     //退出和包
+     hbts.exitHebao = function(){
+        var isWk = this.isWkjs();
+        var mys = confirm("确定要退出和包吗？");
+        if(mys == true){
+            if (!isWk) {
+                CmpExitAction();
+            }else{
+                hebaoWkjs.doCall('CmpExitAction');
             }
         }
     };
 
+
+     //打开浏览器
+     hbts.openSafari = function(){
+        var isWk = this.isWkjs();
+        if (!isWk) {
+            openSafari('https://magi.com');
+        }else{
+            hebaoWkjs.doCall('openSafari',{url:'https://magi.com'});
+        }
+    };
+
+
+     //我的客服
+     hbts.serviceOnline = function(){
+        var isWk = this.isWkjs();
+        if(!isWk){
+            CmpServiceOnline();
+        }else{
+            hebaoWkjs.doCall('CmpServiceOnline');
+        }
+    };
+
+    
+     //我要反馈
+     hbts.feedback = function(){
+        var isWk = this.isWkjs();
+        if(!isWk){
+            CmpNeedFeedback();
+        }else{
+            hebaoWkjs.doCall('CmpNeedFeedback');
+        }
+    };
+
+    //唤起小程序
+    hbts.openMiniApp = {
+        config : {
+            title : "唤起小程序",
+            input : {
+                categroy : "信息填写",               
+                list :[
+                    {
+                        name : "小程序ID",
+                        key : "miniID",
+                        placeholder : "输入小程序ID"
+                    }
+                ]
+            }
+        },
+        handle : function (e){
+            var isWk = isWkjs(); 
+            if (isWk) {
+                hebaoWkjs.doCall("openMiniApplication",e,function(c){
+                    doLog("新式回调结果："+c);
+                });
+            } else {
+                openMiniApplication(e.miniApplicationId);
+            }
+        }
+    };
+
+
+    //调起深度链接 
+    hbts.openMigu = function(){
+        var isWk = this.isWkjs();
+        var obj = {
+            openUrl : 'miguvideo://amber_deeplink?DLSI=a75b353fe99443b5af2edd6bf443414e&amp;JA=miguvideos',
+            downUrl : 'https://itunes.apple.com/cn/app/id787130974'
+        };
+        if (!isWk) {            
+            cmpOpenDeepLinkApp( obj.openUrl,  obj,downUrl);
+        }else{
+            hebaoWkjs.doCall('cmpOpenDeepLinkApp',obj);
+        }
+    };
+
+
+    //游客登录
     hbts.touristLogin = {
         config : {
             title : "游客模式拉起登录页面",
@@ -149,32 +231,7 @@ function ImportJSFileToJs(e){
         }
     };
 
-    hbts.openMiniApp = {
-        config : {
-            title : "唤起小程序",
-            input : {
-                categroy : "信息填写",               
-                list :[
-                    {
-                        name : "小程序ID",
-                        key : "miniApplicationId",
-                        placeholder : "输入小程序ID"
-                    }
-                ]
-            }
-        },
-        handle : function (e){
-            var isWk = isWkjs(); 
-            if (isWk) {
-                hebaoWkjs.doCall("openMiniApplication",e,function(c){
-                    doLog("新式回调结果："+c);
-                });
-            } else {
-                openMiniApplication(e.miniApplicationId);
-            }
-        }
-    };
-
+   
 
     //单点登录   
     hbts.ssoLogin = {
@@ -206,6 +263,73 @@ function ImportJSFileToJs(e){
     }
 
 
+     //导航栏操作  
+     hbts.navView = {
+        config : {
+            title : "导航栏操作",
+            selects : [{
+                categroy : "接口类型",
+                list : [{
+                    name : "显示导航栏",
+                    key : "type",
+                    value : 1,
+                    cheched : true
+                },{
+                    name : "隐藏导航栏",
+                    key : "type",
+                    value : 2,
+                },{
+                    name : "设置标题",
+                    key : "type",
+                    value : 3,
+                }]
+            }],
+            input : {
+                categroy : "信息填写",               
+                list :[
+                    {
+                        name : "标题",
+                        key : "title",
+                        placeholder : "输入标题"
+                    }
+                ]
+            }
+        },
+        handle : function(e){
+            var isWk = this.isWkjs();
+            if(!isWk){
+                if (e.type === '1') {
+                    showNavView();
+                }else if(e.type === '2'){
+                    hideNavView();
+                }else{
+                    CmpChangeTitle(e.title);
+                }
+            }else{
+                if (e.type === '1') {
+                    hebaoWkjs.doCall("showNavView");
+                }else if(e.type === '2'){
+                    hebaoWkjs.doCall("hideNavView");
+                }else{
+                    hebaoWkjs.doCall("CmpChangeTitle",e);
+                }
+            }
+        }   
+    };
+
+
+    //显示Toast2.5秒
+    hbts.showToast = function(){ 
+        var isWk = this.isWkjs();
+        if (!isWk) {
+            showToast('测试文字-老接口');
+        }else{
+            hebaoWkjs.doCall('showToast',{message:'测试文字-新接口'});
+        }
+    };
+
+
+    //亮度调节
     hbts.changBright = {
         config : {
             title : "亮度调节",
@@ -252,254 +376,62 @@ function ImportJSFileToJs(e){
     };
 
 
-
-    
-    //设备信息
-    hbts.deviceInfo = function(){
-        $.callback20001 = function (e){
-            var t = JSON.stringify(e);
-            ShowAlert(t);
-        };
-        var isWk = this.isWkjs();
-        if (!isWk) {
-            cmpNativeCall({actionName: '20001',needCmpLoadding:false ,callback: 'callback20001'}); 
-        }else{
-            hebaoWkjs.doCall('cmpNativeCall',{ 
-                actionName : '20001',
-                needCmpLoadding :false ,
-                callback: 'callback20001'
-            });
-        }
-    };
-
-    hbts.cativeCall = function(n){
-        var isWk = this.isWkjs();
-        if (!isWk) {
-            cmpNativeCall({actionName: n}); 
-        }else{
-            hebaoWkjs.doCall('cmpNativeCall',{ 
-                actionName : n
-            });
-        }
-    };
-
-      
-    //获取定位信息
-    hbts.getLocationInfo = function(){
-        $.callBackGetLocationInfo = function(e){
-            ShowAlert(e);
-        };    
-        var isWk = this.isWkjs();
-        if (!isWk) {
-            getLocationInfo();
-        }else{
-            hebaoWkjs.doCall('getLocationInfo');
-        }
-    };
-
-    //退出和包
-    hbts.exitHebao = function(){
-        var isWk = this.isWkjs();
-        var mys = confirm("确定要退出和包吗？");
-        if(mys == true){
-            if (!isWk) {
-                CmpExitAction();
-            }else{
-                hebaoWkjs.doCall('CmpExitAction');
-            }
-        }
-    };
-
-    //分享功能
-    hbts.shareAction = function(){
-        var isWk = this.isWkjs();
-        if (!isWk) {
-            CMPShareAction( 'www.baidu.com' , '我是一个标题' ); 
-        }else{
-            hebaoWkjs.doCall('CMPShareAction');
-        }
-    };
-
-    //分享微信小程序
-    hbts.shareWXMiniApp = function(){
-        var isWk = this.isWkjs();
-        if (!isWk) {
-            H5shareToWeChatMiniApps(); 
-        }else{
-            hebaoWkjs.doCall('H5shareToWeChatMiniApps');
-        }
-    };
-
-    //拍照
-    hbts.takePhoto = function(){
-        var isWk = this.isWkjs();
-        if (!isWk) {
-            CmpTakePhoto(0,0); 
-        }else{
-            hebaoWkjs.doCall('CmpTakePhoto',{});
-        }
-    };
-
-
     //动态菜单
-    hbts.setTitleMenuList = function(){
-        var isWk = this.isWkjs();
-        if (!isWk) {
-            H5CmpSetTitleMenuList(); 
-        }else{
-            hebaoWkjs.doCall('H5CmpSetTitleMenuList');
-        }
+    hbts.dynamicMenu = {
+        config : {
+            title : "导航栏操作",
+            selects : [{
+                categroy : "接口类型",
+                list : [{
+                    name : "设置动态菜单",
+                    key : "type",
+                    value : 1,
+                    cheched : true
+                },{
+                    name : "清除动态菜单",
+                    key : "type",
+                    value : 2,
+                }]
+            }],
+            input : {
+                categroy : "信息填写",               
+                list :[
+                    {
+                        name : "标题",
+                        key : "title",
+                        placeholder : "输入标题"
+                    }
+                ]
+            }
+        },
+        handle : function(e){
+            $.dynmCallback = function(e){
+                ShowAlert('点击了' + e);
+            }
+            var list = [{menuName:'按钮1',menuUrl:"dynmCallback('按钮1');"},
+                        {menuName:'按钮2',menuUrl:"dynmCallback('按钮2');"},
+                        {menuName:'按钮3',menuUrl:"dynmCallback('按钮3');"}]
+
+            var isWk = this.isWkjs();
+            if(!isWk){
+                if (e.type === '1') {
+                    CmpSetTitleMenuList(JSON.stringify(list));
+                }else{
+                    H5CmpRemoveTitleMenuList();
+                }
+            }else{
+                if (e.type === '1') {
+                    hebaoWkjs.doCall("CmpSetTitleMenuList",JSON.stringify(list));
+                }else{
+                    hebaoWkjs.doCall("H5CmpRemoveTitleMenuList");
+                }
+            }
+        }   
     };
 
 
-    //清空动态菜单 
-    hbts.removeTitleMenuList = function(){
-        var isWk = this.isWkjs();
-        if (!isWk) {
-            H5CmpRemoveTitleMenuList(); 
-        }else{
-            hebaoWkjs.doCall('H5CmpRemoveTitleMenuList');
-        }
-    };
-
-
-    //拉起地图
-    hbts.openMapLocation = function(){
-        var isWk = this.isWkjs();
-        if (!isWk) {
-            CmpOpenMapLocation( '长沙' , '长沙天园假日小区' , '28.197272' , '112.983306'
-            , '28.196794' , '113.07177' );
-        }else{
-            hebaoWkjs.doCall('CmpOpenMapLocation',{});
-        }
-    };
-
-    //保存图片 
-    hbts.savePicToAlbum = function(){
-        var isWk = this.isWkjs();
-        var imgUrl = 'http://images.cnblogs.com/cnblogs_com/xinhudong/1120321/o_TIM%E6%88%AA%E5%9B%BE20171222164207.png';            
-        if (!isWk) {
-            CmpSavePicToAlbum(imgUrl); 
-        }else{
-            hebaoWkjs.doCall('CmpSavePicToAlbum',{imgUrl:imgUrl});
-        }
-    };
-
-    
-    //识别名片
-    hbts.readCardInfo = function(){
-        var isWk = this.isWkjs();
-        if (!isWk) {
-            CmpReadCardInfo( 'https://wwww.baidu.com' , 'https://www.taobao.com');
-        }else{
-            hebaoWkjs.doCall('CmpReadCardInfo',{xx1:'https://wwww.baidu.com',xx2:'https://www.taobao.com'});
-        }
-
-    };
-
-     //扫一扫 
-     hbts.scanCodeByApp = function(){
-        var isWk = this.isWkjs();
-        if (!isWk) {
-            scanCodeByApp();
-        }else{
-            hebaoWkjs.doCall('scanCodeByApp');
-        }
-
-    };
-
-
-     //扫一扫原生处理 
-     hbts.scanCodeByAppWithParam = function(){
-        var isWk = this.isWkjs();
-        if (!isWk) {
-            scanCodeByAppWithParam(true);
-        }else{
-            hebaoWkjs.doCall('scanCodeByAppWithParam',{xx:true});
-        }
-
-    };
-
-
-     //分享到微信
-     hbts.shareToWeChat = function(){
-        var isWk = this.isWkjs();
-        if (!isWk) {
-            shareToWeChat( '分享测试' , 'https://www.baidu.com' , '哈哈哈你好呀' , '' );
-        }else{
-            hebaoWkjs.doCall('shareToWeChat',{});
-        }
-
-    };
-    
-
-    //分享到QQ
-    hbts.shareToQQ = function(){
-        var isWk = this.isWkjs();
-        if (!isWk) {            
-            shareToQQ( '分享测试' , 'https://www.baidu.com' , '哈哈哈你好呀' , '' );
-        }else{
-            hebaoWkjs.doCall('shareToWeChat',{});
-        }
-    };
-
-     //分享到微博
-     hbts.shareToSinaWeibo = function(){
-        var isWk = this.isWkjs();
-        if (!isWk) {            
-            shareToSinaWeibo( '我是分享的内容', 'https://www.baidu.com') ;
-        }else{
-            hebaoWkjs.doCall('shareToWeChat',{});
-        }
-    };
-
-    //调用支付插件（旧接口）
-    hbts.checkPayPassword = function(){
-
-        $.callBackCMPCheckPayPassword = function(e){
-            ShowAlert("支付插件结果"+result);
-        };
-        
-        var isWk = this.isWkjs();
-        if (!isWk) {            
-            CMPCheckPayPassword();
-        }else{
-            hebaoWkjs.doCall('CMPCheckPayPassword');
-        }
-    };
-
-    //调用支付插件（新接口）(名字错误)
-    hbts.checkPayPasswordNew = function(){
-
-        $.callBackCMPCheckPayPasswordNew = function(e){
-            ShowAlert("调用支付插件结果"+result);
-        };
-        var isWk = this.isWkjs();
-        if (!isWk) {            
-            CMPResetPayPasswordNew();
-        }else{
-            hebaoWkjs.doCall('checkPayPasswordNew');
-        }
-    };
-
-     //重置支付密码
-     hbts.resetPayPassword = function(){
-
-        $.callBackCMPResetPayPassword = function(e){
-            ShowAlert("重置密码结果"+result);
-        };
-
-        var isWk = this.isWkjs();
-        if (!isWk) {            
-            CMPResetPayPassword();
-        }else{
-            hebaoWkjs.doCall('CMPResetPayPassword');
-        }
-    };    
-
-
-    //获取统一认证token
-    hbts.getTokenForH5 = function(){
+      //获取统一认证token
+      hbts.getTokenForH5 = function(){
         $.getTokenForH5CallBack = function(status,token){
             ShowAlert('status: '+status + " token: "+ token);
         };
@@ -514,18 +446,34 @@ function ImportJSFileToJs(e){
         }
     };
 
-
-    //调起咪咕 
-    hbts.openMigu = function(){
+     //网络状态 
+     hbts.networkType = function(){
+        $.getNetworkType_callback = function (e){
+            ShowAlert(e);
+        };
         var isWk = this.isWkjs();
-        if (!isWk) {            
-            cmpOpenDeepLinkApp( 'miguvideo://amber_deeplink?DLSI=a75b353fe99443b5af2edd6bf443414e&amp;JA=miguvideos'
-            , 'https://itunes.apple.com/cn/app/he-bao-he-bao-guan-fang-ke/id597795676?mt=8' );
+        if(!isWk){
+            getNetworkType();
         }else{
-            hebaoWkjs.doCall('cmpOpenDeepLinkApp',{phoneNumber : val});
+            hebaoWkjs.doCall('getNetworkType');
         }
     };
 
+     //获取版本号
+     hbts.fetchVersion = function(){
+        $.callBackFetchVersion =function(e){
+            ShowAlert(e);
+        }
+        var isWk = this.isWkjs();
+        if (!isWk) {
+            fetchVersion(); 
+        }else{
+            hebaoWkjs.doCall('fetchVersion');
+        }
+    };
+
+
+    
     //是否本机
     hbts.checkIsLocalNumber = function(){
 
@@ -545,18 +493,85 @@ function ImportJSFileToJs(e){
         }
     };
 
-    //网络状态 
-    hbts.networkType = function(){
-        $.getNetworkType_callback = function (e){
-            ShowAlert(e);
-        };
+
+     //检测更新  
+     hbts.checkAppVersion = function(){
         var isWk = this.isWkjs();
         if(!isWk){
-            getNetworkType();
+            downLatestApp();
         }else{
-            hebaoWkjs.doCall('getNetworkType');
+            hebaoWkjs.doCall('downLatestApp');
+        }
+    };    
+
+
+    //获取定位信息-实时
+    hbts.getExactLocationInfo = function(){
+        $.callBackGetExactLocationInfo = function(e){
+            ShowAlert(e);
+        };    
+        var isWk = this.isWkjs();
+        if (!isWk) {
+            getExactLocationInfo('callBackGetExactLocationInfo');
+        }else{
+            hebaoWkjs.doCall('getExactLocationInfo',{jsCallBack:'callBackGetExactLocationInfo'});
         }
     };
+       
+    //获取定位信息-缓存
+    hbts.getLocationInfo = function(){
+        $.callBackGetLocationInfo = function(e){
+            ShowAlert(e);
+        };    
+        var isWk = this.isWkjs();
+        if (!isWk) {
+            getLocationInfo();
+        }else{
+            hebaoWkjs.doCall('getLocationInfo');
+        }
+    };
+
+    //消息推送弹窗
+    hbts.showNotifDialog = function(){
+        var isWk = this.isWkjs();
+        if (!isWk) {
+            showRequestNotificationPermissionDialog();
+        }else{
+            hebaoWkjs.doCall('showRequestNotificationPermissionDialog');
+        }
+    };
+
+
+    //拉起发短信
+    hbts.evokeMsgUI = {
+        config : {
+            title : "拉起短信面板",
+            input : {
+                categroy : "信息填写",               
+                list :[
+                    {
+                        name : "手机号码",
+                        key : "mobileNo",
+                        placeholder : "输入手机号码"
+                    },
+                    {
+                        name : "短信内容",
+                        key : "contentNo",
+                        placeholder : "输入短信内容"
+                    }
+                ]
+            },
+        },
+        handle : function (e){
+            var isWk = isWkjs(); 
+            if (isWk) {
+                hebaoWkjs.doCall('MessageUI',e);
+            }else{
+                MessageUI(e.mobileNo,e.contentNo);
+            }
+        }
+    };
+
 
     //拨打电话
     hbts.callPhone = function(){
@@ -572,26 +587,326 @@ function ImportJSFileToJs(e){
         }
     };
 
-     //我要反馈
-    hbts.feedback = function(){
+    //保存图片 
+    hbts.savePicToAlbum = function(){
         var isWk = this.isWkjs();
-        if(!isWk){
-            CmpNeedFeedback();
+        var imgUrl = 'https://pic2.zhimg.com/711713742_xll.jpg';            
+        if (!isWk) {
+            CmpSavePicToAlbum(imgUrl); 
         }else{
-            hebaoWkjs.doCall('CmpNeedFeedback');
+            hebaoWkjs.doCall('CmpSavePicToAlbum',{imgUrl:imgUrl});
+        }
+    };
+
+    //拉起地图
+    hbts.openMapLocation = function(){
+        var obj = {
+            startName : '长沙火车站',
+            endName : '长沙天园假日小区',
+            startLatitude : '28.197272',
+            startLongitude : '112.983306',
+            endLatitude : '28.196794',
+            endLongitude : '113.07177'
+        };
+
+        var isWk = this.isWkjs();
+        if (!isWk) {
+            CmpOpenMapLocation( obj.startName , 
+                                obj.endName ,
+                                obj.startLatitude , 
+                                obj.startLongitude,
+                                obj.endLatitude , 
+                                obj.endLongitude );
+        }else{
+            hebaoWkjs.doCall('CmpOpenMapLocation',obj);
         }
     };
 
 
-     //我的客服
-     hbts.serviceOnline = function(){
+
+    //拍照
+    hbts.takePhoto = function(){
         var isWk = this.isWkjs();
-        if(!isWk){
-            CmpServiceOnline();
+        if (!isWk) {
+            CmpTakePhoto(0,0); 
         }else{
-            hebaoWkjs.doCall('CmpServiceOnline');
+            hebaoWkjs.doCall('CmpTakePhoto',{});
         }
     };
+
+  
+    //初始化地铁SDK 
+    hbts.startHtcsCode = function(){
+        var isWk = this.isWkjs();
+        if(!isWk){
+            CmpStartHtcsCode();
+        }else{
+            hebaoWkjs.doCall('CmpStartHtcsCode');
+        }
+    };  
+
+     //发送信息给地铁SDK?什么消息？ 
+     hbts.sendToHtcsCode = function(){
+        var isWk = this.isWkjs();
+        if(!isWk){
+            sendToHtcsCode();
+        }else{
+            hebaoWkjs.doCall('sendToHtcsCode');
+        }
+    };    
+
+    //地铁缓存操作
+    hbts.metroValue = {
+        config : {
+            title : "地铁数据缓存",
+            selects : [{
+                categroy : "操作类型",
+                list : [{
+                    name : "写缓存",
+                    key : "type",
+                    value : 1,
+                    cheched : true
+                },{
+                    name : "读缓存",
+                    key : "type",
+                    value : 2,
+                }]
+            }],
+            input : {
+                categroy : "信息填写",               
+                list : [
+                    {
+                        name : "缓存值",
+                        key : "value",
+                        placeholder : "输入任意字符"
+                    }
+                ]
+            }
+        },
+        handle : function (e){            
+            var isWk = isWkjs(); 
+            if(e.type == '1'){
+                if(!isWk){
+                    CmpSetCsMetroValue(e.value);
+                }else{
+                    hebaoWkjs.doCall('CmpSetCsMetroValue',e);
+                }
+            }else{
+                $.callBackCMPCsMetroValue = function (e){
+                    ShowAlert('缓存信息：'+ e)
+                };
+                if(!isWk){
+                    CmpGetCsMetroValue();
+                }else{
+                    hebaoWkjs.doCall('CmpGetCsMetroValue');
+                }
+            }
+        }
+    };
+
+
+    //扫一扫 
+    hbts.scanCodeByApp = function(){
+        var isWk = this.isWkjs();
+        if (!isWk) {
+            scanCodeByApp();
+        }else{
+            hebaoWkjs.doCall('scanCodeByApp');
+        }
+    };
+
+     //扫一扫原生处理 
+     hbts.scanCodeByAppWithParam = function(){
+        $.callbackScanCodeByAppWithParam = function(e){
+            ShowAlert(e);
+        }
+        var isWk = this.isWkjs();
+        if (!isWk) {
+            scanCodeByAppWithParam(true);
+        }else{
+            hebaoWkjs.doCall('scanCodeByAppWithParam',{backJs:true});
+        }
+    };
+
+
+
+
+    //分享功能
+    hbts.shareAction = function(){
+        var isWk = this.isWkjs();
+        if (!isWk) {
+            CMPShareAction( 'www.baidu.com' , '我是一个标题' ); 
+        }else{
+            hebaoWkjs.doCall('CMPShareAction',{shareUrl:'www.baidu.com',shareDetail: '是一个标题'});
+        }
+    };
+
+
+    //分享到QQ
+    hbts.shareToQQ = function(){
+        $.shareCallback = function(e){
+            ShowAlert('回调结果'+e);
+        }
+        var isWk = this.isWkjs();
+        if (!isWk) {            
+            shareToQQ( '分享测试' , 'https://www.baidu.com' , '哈哈哈你好呀' , '' );
+        }else{
+            hebaoWkjs.doCall('shareToQQ',{title:'分享测试',url:'https://www.baidu.com',detail:'哈哈哈你好呀'});
+        }
+    };
+
+     //分享到微信
+     hbts.shareToWeChat = function(){
+        $.shareCallback = function(e){
+            ShowAlert('回调结果'+e);
+        }
+        var isWk = this.isWkjs();
+        if (!isWk) {
+            shareToWeChat( '分享测试' , 'https://www.baidu.com' , '哈哈哈你好呀' , '' );
+        }else{
+            hebaoWkjs.doCall('shareToWeChat',{title:'分享测试',url:'https://www.baidu.com',detail:'哈哈哈你好呀'});
+        }
+
+    };
+
+     //分享到微博
+     hbts.shareToSinaWeibo = function(){
+        $.shareCallback = function(e){
+            ShowAlert('回调结果'+e);
+        }
+        var isWk = this.isWkjs();
+        if (!isWk) {            
+            shareToSinaWeibo('我是分享的内容', 'https://www.baidu.com') ;
+        }else{
+            hebaoWkjs.doCall('shareToSinaWeibo',{title:'分享测试',url:'https://www.baidu.com',detail:'哈哈哈你好呀'});
+        }
+    };
+
+    //分享到微信朋友圈
+    hbts.shareToWeChatGroup = function(){
+        $.handleSuccess = function(e){
+            ShowAlert('回调结果'+e);
+        }
+        var isWk = this.isWkjs();
+        if (!isWk) {            
+            shareToWeChatGroup('分享标题', 'https://www.baidu.com','哈哈哈你好呀') ;
+        }else{
+            hebaoWkjs.doCall('shareToWeChatGroup',{title:'分享测试',url:'https://www.baidu.com',detail:'哈哈哈你好呀'});
+        }
+    };
+
+     //分享到微信小程序
+     hbts.shareToWeChatMiniApps = function(){
+        $.shareCallback = function(e){
+            ShowAlert('回调结果'+e);
+        }
+        var obj = {
+            webpageUrl : 'https://www.baidu.com',
+            username : '123',
+            path : 'https://www.baidu.com',
+            hdImageStr : '',
+            appTitle : '小程序',
+            description : '小程序描述'
+        }
+
+        var isWk = this.isWkjs();
+        if (!isWk) {            
+            shareToWeChatMiniApps(
+                obj.webpageUrl,
+                obj.username,
+                obj.path,
+                obj.hdImageStr,
+                obj.appTitle,
+                obj,description);
+        }else{
+            hebaoWkjs.doCall('shareToWeChatMiniApps',obj);
+        }        
+    };
+
+
+
+    //amount 新老接口均调通
+    hbts.recharge = {
+        config : {
+            title : "充值",
+            input : {
+                categroy : "信息填写",
+                list :[
+                    {
+                        name : "充值金额",
+                        key : "amount",
+                        placeholder : "充值金额"
+                    }
+                ]
+            },
+        },
+        handle : function (e){           
+            var isWk = isWkjs(); 
+            if (isWk) {
+                hebaoWkjs.doCall('callToPayRecharge',e);
+            }else{
+                callToPayRecharge(e.amount);
+            }
+        }
+    };
+
+
+    //调用支付插件（旧接口）
+    hbts.checkPayPassword = function(){
+
+        $.callBackCMPCheckPayPassword = function(e){
+            ShowAlert("支付插件结果"+e);
+        };
+        
+        var isWk = this.isWkjs();
+        if (!isWk) {            
+            CMPCheckPayPassword();
+        }else{
+            hebaoWkjs.doCall('CMPCheckPayPassword');
+        }
+    };
+
+    //调用支付插件（新接口）(名字错误)
+    hbts.checkPayPasswordNew = function(){
+
+        $.callBackCMPCheckPayPasswordNew = function(e){
+            ShowAlert("调用支付插件结果:"+e);
+        };
+        var isWk = this.isWkjs();
+        if (!isWk) {            
+            CMPResetPayPasswordNew();
+        }else{
+            hebaoWkjs.doCall('CMPCheckPayPasswordNew'); //名字修正
+        }
+    };
+
+     //重置支付密码
+     hbts.resetPayPassword = function(){
+
+        $.callBackCMPResetPayPassword = function(e){
+            ShowAlert("重置密码结果:"+e);
+        };
+
+        var isWk = this.isWkjs();
+        if (!isWk) {            
+            CMPResetPayPassword();
+        }else{
+            hebaoWkjs.doCall('CMPResetPayPassword');
+        }
+    };    
+
+
+
+    //调起名片SDK
+    hbts.goBusinessSDK = function(){
+        var isWk = this.isWkjs();
+        if(!isWk){
+            goBusinessSDK();
+        }else{
+            hebaoWkjs.doCall('goBusinessSDK');
+        }
+    };
+
 
     //拉起原生名片 
     hbts.goCardClipIndex = function(){
@@ -603,61 +918,117 @@ function ImportJSFileToJs(e){
         }
     };
 
-    //初始化地铁SDK 
-    hbts.startHtcsCode = function(){
+    //和包果园添加好友
+    hbts.goMocamContact = function(){
         var isWk = this.isWkjs();
         if(!isWk){
-            CmpStartHtcsCode();
+            goMocamContact();
         }else{
-            hebaoWkjs.doCall('CmpStartHtcsCode');
+            hebaoWkjs.doCall('goMocamContact');
         }
     };
 
 
-    //地铁写缓存 
-    hbts.setCsMetroValue = function(){
+
+    //不知道干啥用的 
+    hbts.readCardInfo = function(){
+        $.callBackCmpReadCardInfo = function(e){
+            ShowAlert(e);
+        }
         var isWk = this.isWkjs();
-        if(!isWk){
-            CmpSetCsMetroValue('helloworld');
+        if (!isWk) {
+            CmpReadCardInfo( 'https://wwww.baidu.com' , 'https://www.taobao.com');
         }else{
-            hebaoWkjs.doCall('CmpSetCsMetroValue',{value:'helloworld'});
+            hebaoWkjs.doCall('CmpReadCardInfo',{xx1:'https://wwww.baidu.com',xx2:'https://www.taobao.com'});
+        }
+    }
+
+    //和包红包专用
+    hbts.goBatchPacketsContact = {
+        config : {
+            title : "和包红包专用",
+            input : {
+                categroy : "信息填写",
+                list :[
+                    {
+                        name : "数量？",
+                        key : "total",
+                        placeholder : "输入"
+                    },
+                    {
+                        name : "内容？",
+                        key : "content",
+                        placeholder : "输入"
+                    }
+                ]
+            },
+        },
+        handle : function (e){
+            $.callBackGetPacketsContacts = function(r) {
+                doLog("回调结果："+r);
+            }
+            var isWk = isWkjs(); 
+            if (isWk) {
+                hebaoWkjs.doCall('goBatchPacketsContact',e);
+            }else{
+                goBatchPacketsContact(e.total,e.content);
+            }
         }
     };
 
-    //地铁写缓存 
-    hbts.getCsMetroValue = function(){
-         
-        $.callBackCMPCsMetroValue = function (e){
-            ShowAlert(e)
-        };
+    //刷新二维码状态
+    hbts.CmpNoticeCardChangeStatu = function(){
         var isWk = this.isWkjs();
         if(!isWk){
-            CmpGetCsMetroValue();
+            CmpNoticeCardChangeStatu();
         }else{
-            hebaoWkjs.doCall('CmpGetCsMetroValue');
+            hebaoWkjs.doCall('CmpNoticeCardChangeStatu');
         }
-    };    
+    };
 
 
-    //发送信息给地铁SDK?什么消息？ 
-    hbts.sendToHtcsCode = function(){
+    //设置支付密码后通知客户端
+    hbts.CmpSyncPayPwdSts = function(){
         var isWk = this.isWkjs();
         if(!isWk){
-            sendToHtcsCode();
+            CmpSyncPayPwdSts();
         }else{
-            hebaoWkjs.doCall('sendToHtcsCode');
+            hebaoWkjs.doCall('CmpSyncPayPwdSts');
         }
-    };    
+    };
 
-    //检测更新  
-    hbts.checkAppVersion = function(){
+
+    //刷新和聚宝资产
+    hbts.notifyHJBBalanceUpdate = function(){
         var isWk = this.isWkjs();
         if(!isWk){
-            downLatestApp();
+            notifyHJBBalanceUpdate();
         }else{
-            hebaoWkjs.doCall('downLatestApp');
+            hebaoWkjs.doCall('notifyHJBBalanceUpdate');
         }
-    };    
+    };
+
+    //和小窗删除信息调用
+    hbts.deletehxc = function(){
+        var isWk = this.isWkjs();
+        if(!isWk){
+            deletehxc();
+        }else{
+            hebaoWkjs.doCall('deletehxc');
+        }
+    };
+
+    //清除游客模式 ？？
+    hbts.clearTouristModel = function(){
+        var isWk = this.isWkjs();
+        if(!isWk){
+            clearTouristModel();
+        }else{
+            hebaoWkjs.doCall('clearTouristModel');
+        }
+    };
+
+    
         
 }(window));
 

@@ -52,7 +52,7 @@
                     doLog("新式回调结果："+r);
                 });
             } else {
-                cmpCommonPay(orderNo,orderType,pickupType);
+                cmpCommonPay(e.orderNo, e.orderType, e.pickupType);
             }
 
         }

@@ -114,7 +114,13 @@
                    key : "type",
                    value : 4,
                }]
-           }]
+           }],
+           info :{
+            categroy : "信息说明",
+            descText  : "获取权限有弹窗回调\n 相机1-0 相册1-0 通讯录1-0 推送2-1 定位1-0",   //说明
+            descHtml : "<hr>",
+            other : {} //备用数据
+        }
        },
        handle : function(e){
            var type = parseInt(e.type);
@@ -146,7 +152,7 @@
                }
                break;
                case 2:{
-                   $.checkAddressBookAuthorization = function(r) {
+                   $.checkAddressBookAuthorizationback = function(r) {
                         ShowAlert(r);
                    }
                    if (!isWk) {
@@ -157,13 +163,13 @@
                }
                break;    
                case 3:{
-                   $.callbackBusinessInfo = function(r) {
+                   $.callBackWhetherHasNoticePermission = function(r) {
                         ShowAlert(r);
                    }
                    if (!isWk) {
                         whetherHasNotificationPermission();
                    }else{
-                       hebaoWkjs.doCall('callBackWhetherHasNoticePermission');
+                       hebaoWkjs.doCall('whetherHasNotificationPermission');
                    }
                }
                break; 

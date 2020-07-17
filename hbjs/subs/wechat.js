@@ -51,7 +51,7 @@
                     e.path,
                     e.hdImageStr,
                     e.appTitle,
-                    e,description);
+                    e.description);
             }else{
                 hebaoWkjs.doCall('shareToWeChatMiniApps',e);
             }       

@@ -176,7 +176,7 @@ function ImportJSFileToJs(e){
                     doLog("新式回调结果："+c);
                 });
             } else {
-                openMiniApplication(e.miniApplicationId);
+                openMiniApplication(e.miniID);
             }
         }
     };
@@ -190,7 +190,7 @@ function ImportJSFileToJs(e){
             downUrl : 'https://itunes.apple.com/cn/app/id787130974'
         };
         if (!isWk) {            
-            cmpOpenDeepLinkApp( obj.openUrl,  obj,downUrl);
+            cmpOpenDeepLinkApp(obj.openUrl, obj.downUrl);
         }else{
             hebaoWkjs.doCall('cmpOpenDeepLinkApp',obj);
         }
@@ -206,7 +206,7 @@ function ImportJSFileToJs(e){
                 list :[
                     {
                         name : "回调页面地址",
-                        key : "targetUrl",
+                        key : "url",
                         placeholder : "输入页面地址"
                     }
                 ]
@@ -217,6 +217,7 @@ function ImportJSFileToJs(e){
             }
         },
         handle : function (e){
+            e.ssoFlagStr = 'true';
             $.touristLoginSuccessCallback = function(r) {
                 doLog("老式回调结果："+r);
             }
@@ -242,7 +243,7 @@ function ImportJSFileToJs(e){
                 list :[
                     {
                         name : "目标链接",
-                        key : "url",
+                        key : "urlStr",
                         placeholder : "输入url"
                     }
                 ]
@@ -255,7 +256,7 @@ function ImportJSFileToJs(e){
             }
             var isWk = this.isWkjs();
             if(!isWk){
-                CmpGetSsoUrl(e.url);
+                CmpGetSsoUrl(e.urlStr);
             }else{
                 hebaoWkjs.doCall("CmpGetSsoUrl",e);
             }
@@ -392,17 +393,7 @@ function ImportJSFileToJs(e){
                     key : "type",
                     value : 2,
                 }]
-            }],
-            input : {
-                categroy : "信息填写",               
-                list :[
-                    {
-                        name : "标题",
-                        key : "title",
-                        placeholder : "输入标题"
-                    }
-                ]
-            }
+            }]
         },
         handle : function(e){
             $.dynmCallback = function(e){
@@ -415,13 +406,13 @@ function ImportJSFileToJs(e){
             var isWk = this.isWkjs();
             if(!isWk){
                 if (e.type === '1') {
-                    CmpSetTitleMenuList(JSON.stringify(list));
+                    CmpSetTitleMenuList(list);
                 }else{
                     H5CmpRemoveTitleMenuList();
                 }
             }else{
                 if (e.type === '1') {
-                    hebaoWkjs.doCall("CmpSetTitleMenuList",JSON.stringify(list));
+                    hebaoWkjs.doCall("CmpSetTitleMenuList",{params : list});
                 }else{
                     hebaoWkjs.doCall("H5CmpRemoveTitleMenuList");
                 }
@@ -551,12 +542,12 @@ function ImportJSFileToJs(e){
                 list :[
                     {
                         name : "手机号码",
-                        key : "mobileNo",
+                        key : "phoneNum",
                         placeholder : "输入手机号码"
                     },
                     {
                         name : "短信内容",
-                        key : "contentNo",
+                        key : "content",
                         placeholder : "输入短信内容"
                     }
                 ]
@@ -567,7 +558,7 @@ function ImportJSFileToJs(e){
             if (isWk) {
                 hebaoWkjs.doCall('MessageUI',e);
             }else{
-                MessageUI(e.mobileNo,e.contentNo);
+                MessageUI(e.phoneNum,e.content);
             }
         }
     };
@@ -639,9 +630,9 @@ function ImportJSFileToJs(e){
     hbts.startHtcsCode = function(){
         var isWk = this.isWkjs();
         if(!isWk){
-            CmpStartHtcsCode();
+            CmpStartHtcsCode({key:"00000000000000000000"});
         }else{
-            hebaoWkjs.doCall('CmpStartHtcsCode');
+            hebaoWkjs.doCall('CmpStartHtcsCode',{key:"00000000000000000000"});
         }
     };  
 
@@ -649,9 +640,9 @@ function ImportJSFileToJs(e){
      hbts.sendToHtcsCode = function(){
         var isWk = this.isWkjs();
         if(!isWk){
-            sendToHtcsCode();
+            CmpSendToHtcsCode({key:"00000000000000000000"});
         }else{
-            hebaoWkjs.doCall('sendToHtcsCode');
+            hebaoWkjs.doCall('CmpSendToHtcsCode',{key:"00000000000000000000"});
         }
     };    
 
@@ -817,7 +808,7 @@ function ImportJSFileToJs(e){
                 obj.path,
                 obj.hdImageStr,
                 obj.appTitle,
-                obj,description);
+                obj.description);
         }else{
             hebaoWkjs.doCall('shareToWeChatMiniApps',obj);
         }        
@@ -1028,7 +1019,81 @@ function ImportJSFileToJs(e){
         }
     };
 
-    
+    //h5页面返回拦截 
+    hbts.addInterceptPageUrl = function(){
+        var isWk = this.isWkjs();
+        var list = '[{url:"/",jsCallBack:"alert("你确定要退出本页面吗？")"}]';
+        if(!isWk){
+            addInterceptPageUrl(list);
+        }else{
+            hebaoWkjs.doCall('addInterceptPageUrl',{jsonArrays:list});
+        }
+    };
+
+    hbts.bank_yhkxq = {
+        config : {
+            title : "网页版银行卡银行卡信息",
+            input : {
+                categroy : "信息填写",
+                list :[
+                    {
+                        name : "银行编号",
+                        key : "bankCode",
+                        placeholder : "输入银行编号"
+                    },
+                    {
+                        name : "银行名称",
+                        key : "bankName",
+                        placeholder : "输入银行名称"
+                    },
+                    {
+                        name : "协议号",
+                        key : "bankAgreementNo",
+                        placeholder : "输入协议号"
+                    },
+                    {
+                        name : "银行预留手机号",
+                        key : "bankMobileNo",
+                        placeholder : "输入手机号"
+                    },
+                    {
+                        name : "卡末4位",
+                        key : "cardLastNo",
+                        placeholder : "输入",
+                        value : '3966'
+                    },
+                    {
+                        name : "银行卡类型",
+                        key : "cardType",
+                        placeholder : "0借记卡/1信用卡",
+                    },
+                    {
+                        name : "签约日期",
+                        key : "signDate",
+                        placeholder : "yyyymmdd",
+                    },
+                    {
+                        name : "是否是安全卡",
+                        key : "secureCard",
+                        placeholder : "0:非安全卡 1：安全卡 2：安全卡解除快捷",
+                    }
+                ]
+            },
+        },
+        handle : function (e){
+            //{"bankCode":"CMB","bankName":"招商银行","bankAgreementNo":"NEWAG000000030637053","bankMobileNo":"15874252636",
+            //"cardLastNo":"3966","cardType":"0","signDate":"20200210","bankColorType":"red",
+            //"paymentLimit":"单笔10000元 / 每日10000元 / 每月50000元","secureCard":"0"}
+            var _json = JSON.stringify(e);
+            var isWk = isWkjs(); 
+            if (isWk) {
+                hebaoWkjs.doCall('yhkxq',{jsonCard:_json});
+            }else{                
+                yhkxq(_json);
+            }
+        }
+    };
+   
         
 }(window));
 

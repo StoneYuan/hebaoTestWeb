@@ -37,7 +37,7 @@
             ],
             info : {
                 categroy : "存储/删除号码",
-                descText : "[{\"name\":\"大王\", \"mobile\": \"13899996666\"}]"
+                descText : "[{\"name\":\"大大王\", \"mobile\": \"13899996666\"},{\"name\":\"大王\", \"mobile\": \"15899996666\"}]"
             }
         },
         handle : function (e){
@@ -79,27 +79,27 @@
                 break; 
                 case 4:{
                     $.H5CmpSaveToAddrListCallBack = function(r) {
-                        doLog("回调结果："+r);
+                        doLog("回调结果：" + r + '到通讯录查看操作结果');
                     }
-                    var _json = this.config.info.description;
+                    var _json = hbts.callContacts.config.info.descText;
                     var obj = JSON.parse(_json);
                     if (!isWk) {
                         CmpSaveToAddrList(obj, 'H5CmpSaveToAddrListCallBack');
                     }else{
-                        hebaoWkjs.doCall('CmpSaveToAddrList',{value:obj,callback:'H5CmpSaveToAddrListCallBack'});
+                        hebaoWkjs.doCall('CmpSaveToAddrList',{params:obj, callback:'H5CmpSaveToAddrListCallBack'});
                     }
                 }
                 break; 
                 case 5:{
                     $.H5CmpDeleFromAddrListCallBack = function(r) {
-                        doLog("回调结果："+r);
+                        doLog("回调结果："+r + '到通讯录查看操作结果');
                     }
-                    var _json = this.config.info.description;
+                    var _json = hbts.callContacts.config.info.descText;
                     var obj = JSON.parse(_json);
                     if (!isWk) {
                         CmpDeleFromAddrList(obj, 'H5CmpDeleFromAddrListCallBack');
                     }else{
-                        hebaoWkjs.doCall('CmpDeleFromAddrList',{value:obj,callback:'H5CmpDeleFromAddrListCallBack'});
+                        hebaoWkjs.doCall('CmpDeleFromAddrList',{params:obj, callback:'H5CmpDeleFromAddrListCallBack'});
                     }
                 }
                 break; 

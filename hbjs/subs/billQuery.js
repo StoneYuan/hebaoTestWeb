@@ -160,7 +160,7 @@
 
     hbts.getNewBillOrder = {
         config : {
-            title : "拉起转账记录",
+            title : "拉起账单区分支出和收入",
             input : {
                 categroy : "信息填写",               
                 list : [
@@ -175,7 +175,7 @@
                         placeholder : "输入"
                     },
                     {
-                        name : "收入还是支出 1只查收入，0只查支出",
+                        name : "1收入/0支出",
                         key : "orderType",
                         placeholder : "输入"
                     }

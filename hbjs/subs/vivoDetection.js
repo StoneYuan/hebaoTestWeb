@@ -82,6 +82,7 @@
                         hebaoWkjs.doCall('doVivoDetection',e);
                     }
                 }
+                break; 
                 case 1:{
                     $.callbackLifeCheckPlus = function(r) {
                          ShowAlert(r);

@@ -56,7 +56,7 @@ function ImportJSFileToJs(e){
     //网页内部再打开另一个webview   
     hbts.goWeb = {
         config : {
-            title : "网页内部再打开另一个webview页面",
+            title : "网页内部再打开其它页面",
             selects : [{
                 categroy : "接口类型",
                 list : [{
@@ -83,6 +83,13 @@ function ImportJSFileToJs(e){
                         placeholder : "输入目标地址"
                     }
                 ]
+            },
+            info :{
+                categroy : "信息说明",
+                descText  : "goWeb和goWebNoLogin都支持activity协议和http链接，后者不对链接单点登录。输入示例：activity://ZZ 或者 https://www.baidu.com \n\
+                ToApp只支持activity协议，且不能带activity:// 。输入示例：BDYHK \
+                ",   //说明
+                other : {} //备用数据
             }
         },
         handle : function(e){
@@ -342,7 +349,7 @@ function ImportJSFileToJs(e){
                     value : 1,
                     cheched : true
                 },{
-                    name : "恢复系统亮度",
+                    name : "关闭亮度调节",
                     key : "type",
                     value : 2,
                 }]
@@ -786,36 +793,6 @@ function ImportJSFileToJs(e){
         }
     };
 
-     //分享到微信小程序
-     hbts.shareToWeChatMiniApps = function(){
-        $.shareCallback = function(e){
-            ShowAlert('回调结果'+e);
-        }
-        var obj = {
-            webpageUrl : 'https://www.baidu.com',
-            username : '123',
-            path : 'https://www.baidu.com',
-            hdImageStr : '',
-            appTitle : '小程序',
-            description : '小程序描述'
-        }
-
-        var isWk = this.isWkjs();
-        if (!isWk) {            
-            shareToWeChatMiniApps(
-                obj.webpageUrl,
-                obj.username,
-                obj.path,
-                obj.hdImageStr,
-                obj.appTitle,
-                obj.description);
-        }else{
-            hebaoWkjs.doCall('shareToWeChatMiniApps',obj);
-        }        
-    };
-
-
-
     //amount 新老接口均调通
     hbts.recharge = {
         config : {
@@ -1022,11 +999,11 @@ function ImportJSFileToJs(e){
     //h5页面返回拦截 
     hbts.addInterceptPageUrl = function(){
         var isWk = this.isWkjs();
-        var list = '[{url:"/",jsCallBack:"alert("你确定要退出本页面吗？")"}]';
+        var list = [{url:'/',jsCallBack:"ShowAlert('你确定要退出本页面吗？')"}];
         if(!isWk){
-            addInterceptPageUrl(list);
+            addInterceptPageUrl(JSON.stringify(list));
         }else{
-            hebaoWkjs.doCall('addInterceptPageUrl',{jsonArrays:list});
+            hebaoWkjs.doCall('addInterceptPageUrl',{jsonArrays:JSON.stringify(list)});
         }
     };
 
@@ -1052,20 +1029,19 @@ function ImportJSFileToJs(e){
                         placeholder : "输入协议号"
                     },
                     {
-                        name : "银行预留手机号",
+                        name : "预留手机号",
                         key : "bankMobileNo",
                         placeholder : "输入手机号"
                     },
                     {
                         name : "卡末4位",
                         key : "cardLastNo",
-                        placeholder : "输入",
-                        value : '3966'
+                        placeholder : "输入卡末4位",
                     },
                     {
                         name : "银行卡类型",
                         key : "cardType",
-                        placeholder : "0借记卡/1信用卡",
+                        placeholder : "见参数说明",
                     },
                     {
                         name : "签约日期",
@@ -1073,12 +1049,16 @@ function ImportJSFileToJs(e){
                         placeholder : "yyyymmdd",
                     },
                     {
-                        name : "是否是安全卡",
+                        name : "是否安全卡",
                         key : "secureCard",
-                        placeholder : "0:非安全卡 1：安全卡 2：安全卡解除快捷",
+                        placeholder : "见参数说明",
                     }
                 ]
             },
+            info : {
+                categroy : "参数说明",
+                descText : "银行卡类型 0:借记卡，1:信用卡\n 是否安全卡 0:非安全卡 1：安全卡 2：安全卡解除快捷"
+            }
         },
         handle : function (e){
             //{"bankCode":"CMB","bankName":"招商银行","bankAgreementNo":"NEWAG000000030637053","bankMobileNo":"15874252636",
@@ -1093,8 +1073,99 @@ function ImportJSFileToJs(e){
             }
         }
     };
-   
-        
+
+    //快捷绑卡(H5方式)完成 客户端返回前置页面 测试页无意义，返回俩层页面
+    hbts.finishFastBindingCard = function(){
+        var isWk = this.isWkjs();
+        if(!isWk){
+            finishFastBindingCard();
+        }else{
+            hebaoWkjs.doCall('finishFastBindingCard');
+        }
+    };
+
+
+    //H5调起头像修改原生页面---wk改版后接口(无老接口)
+    hbts.goUserHeadActivity = function(){
+        hebaoWkjs.doCall('goUserHeadActivity',function(e){
+            ShowAlert(JSON.stringify(e));
+        });
+    };
+
+    //h5调用提现去绑卡---wk改版后接口(无老接口)
+    hbts.goNewAddBankCard ={
+        config : {
+            title : "提现去绑卡",
+            input : {
+                categroy : "信息填写",
+                list :[
+                    {
+                        name : "订单号",
+                        key : "orderNumber",
+                        placeholder : "输入"
+                    }
+                ]
+            },
+        },
+        handle : function (e){
+            hebaoWkjs.doCall('goNewAddBankCard',e,function(r){
+                ShowAlert(JSON.stringify(r));
+            });
+        }
+    };
+
+    //快捷绑卡回调参数刷新支付插件---wk改版后接口(无老接口)
+    hbts.finishFastBindingCardWithArgs ={
+        config : {
+            title : "快捷绑卡回调参数刷新支付插件",
+            input : {
+                categroy : "信息填写",
+                list :[
+                    {
+                        name : "快捷签约协议号",
+                        key : "bankAgreementNo",
+                        placeholder : "输入"
+                    }
+                ]
+            },
+        },
+        handle : function (e){
+            hebaoWkjs.doCall('finishFastBindingCardWithArgs',e,function(r){
+                ShowAlert(JSON.stringify(r));
+            });
+        }
+    };
+
+
+    //第三方APP绑卡---wk改版后接口(无老接口)
+    hbts.fastBindingCardJumpToThirdApp ={
+        config : {
+            title : "第三方APP绑卡",
+            input : {
+                categroy : "信息填写",
+                list :[
+                    {
+                        name : "APP链接",
+                        key : "appBankUrl",
+                        placeholder : "输入"
+                    }
+                ]
+            },
+        },
+        handle : function (e){
+            hebaoWkjs.doCall('fastBindingCardJumpToThirdApp',e,function(r){
+                ShowAlert(JSON.stringify(r));
+            });
+        }
+    };
+
+    //s客户端ession共享---wk改版后接口(无老接口)
+    hbts.relogin = function(){
+        hebaoWkjs.doCall('relogin',function(r){
+            ShowAlert(JSON.stringify(r));
+        });
+    };
+    
 }(window));
 
 
@@ -1107,8 +1178,6 @@ function ImportJSFileToJs(e){
 }(window));
 
 // activity跳转和包本地应用???
-
 // 双录？
-
 //web检测器不生效
 //https://stackoverflow.com/questions/53052995/safari-web-inspector-not-working-with-cordova-in-ios12-and-mac-os-mojave

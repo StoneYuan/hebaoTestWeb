@@ -30,14 +30,25 @@
 				color: #6d6d72;
 				font-size: 15px;
 			}
+			.mui-search{
+				margin-left: 10px;
+				margin-right: 10px;
+			}
 		</style>
 	</head>
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">大杂烩</h1>
+			<a href="setting.html" class="mui-icon mui-icon-gear mui-pull-right"></a>
 		</header>
-		<div class="mui-content" id="table-content">
+		<div class="mui-content">
+			<p></p>
+			<div class="mui-input-row mui-search">
+				<input type="search" class="mui-input-clear" id="search-hb" placeholder="输入接口名或描述">
+			</div>
+			<div id="table-content">				
+			</div>
 		</div>
 	</body>
 	<script src="../js/mui.min.js"></script>
@@ -46,6 +57,22 @@
 		mui.init({
 			swipeBack:true //启用右滑关闭功能
 		});
+
+		document.getElementById("search-hb").addEventListener('input',function(){
+			var ipt = this.value;
+			var list = document.getElementsByClassName('mui-table-view-cell');
+			for (var cell of list) {
+				 var t = cell.getElementsByClassName('mui-media-body')[0].textContent;
+				 var d = cell.getElementsByClassName('interface-name')[0].textContent;
+				if (t.toLowerCase().indexOf(ipt.toLowerCase()) != -1 ||
+				    d.toLowerCase().indexOf(ipt.toLowerCase()) != -1 ) { 
+					cell.style.display = 'block';
+                }else{
+					cell.style.display = 'none';
+				}
+			}
+		});
+
 	</script>
 	<script type="text/tmplate" id="tmplate">
 		<ul class="mui-table-view">
@@ -73,7 +100,7 @@
 				{name: "我的客服", link: _nolink, action: "hbts.serviceOnline();",desc : "CmpServiceOnline"},
 				{name: "我要反馈", link: _nolink, action: "hbts.feedback();",desc : "CmpNeedFeedback"},
 				{name: "唤起小程序", link: "subs/moreDetails.html?fid=openMiniApp", action: null, desc: "openMiniApplication"},
-				{name: "调起第三方app(咪咕)", link: _nolink, action: "hbts.openMigu()" ,desc : "cmpOpenDeepLinkApp"},
+				{name: "深度链接调起app(咪咕)", link: _nolink, action: "hbts.openMigu()" ,desc : "cmpOpenDeepLinkApp"},
 
 				{name: "游客模式拉起登录页面 ", link: "subs/moreDetails.html?fid=touristLogin", action: null, desc: "touristLogin"},
 				{name: "单点登录", link: "subs/moreDetails.html?fid=ssoLogin", action: null ,desc : "CmpGetSsoUrl"},
@@ -125,7 +152,6 @@
 
 				{name: "支付（好像没用了？）", link: "subs/moreDetails.html?fid=cmpCommonPay", action: null, desc: "cmpCommonPay"},
 				{name: "充值", link: "subs/moreDetails.html?fid=recharge", action: null, desc: "callToPayRecharge"},
-				{name: "支付能力外放--和包外使用", link: "subs/moreDetails.html?fid=cmpOutPay", action: null, desc : "PaymentMethod/fetchMethodiPosVC"},
 				{name: "调用支付插件-旧接口", link: _nolink, action: "hbts.checkPayPassword();",desc : "CMPCheckPayPassword"},
 				{name: "调用支付插件-新接口", link: _nolink, action: "hbts.checkPayPasswordNew();",desc : "CMPCheckPayPasswordNew"},
 				{name: "重置支付密码", link: _nolink, action: "hbts.resetPayPassword();",desc : "CMPResetPayPassword"},
@@ -150,77 +176,25 @@
 				{name: "刷新和聚宝资产-看日志", link: _nolink, action: "hbts.notifyHJBBalanceUpdate();",desc : "notifyHJBBalanceUpdate"},
 				{name: "和小窗删除信息调用-看日志", link: _nolink, action: "hbts.deletehxc();",desc : "deletehxc"},
 				{name: "清除游客模式 ？-看日志", link: _nolink, action: "hbts.clearTouristModel();",desc : "clearTouristModel"},
-				{name: "h5页面返回拦截-看日志", link: _nolink, action: "hbts.addInterceptPageUr();",desc : "addInterceptPageUr"},
+				{name: "h5页面返回拦截-看日志", link: _nolink, action: "hbts.addInterceptPageUrl();",desc : "addInterceptPageUrl"},
 
 
-				{name: "拉起党建云", link: "PartySchool://?jumptype=hepay", action: null,desc : ""},
-				{name: "调起和飞信", link: "hefeixin://", action: null,desc : ""},
+				{name: "快捷绑卡完成返回前置页面-特殊环境测试", link: _nolink, action: "hbts.finishFastBindingCard();",desc : "finishFastBindingCard"},
 
+				{name: "头像修改原生页面-wk改版接口", link: _nolink, action: "hbts.goUserHeadActivity();",desc : "goUserHeadActivity"},
+				{name: "提现去绑卡-wk改版接口", link: "subs/moreDetails.html?fid=goNewAddBankCard", action: null, desc: "goNewAddBankCard"},
+				{name: "快捷绑卡回调参数刷新支付插件-wk改版接口", link: "subs/moreDetails.html?fid=finishFastBindingCardWithArgs", action: null, desc: "finishFastBindingCardWithArgs"},
+				{name: "第三方APP绑卡-wk改版接口", link: "subs/moreDetails.html?fid=fastBindingCardJumpToThirdApp", action: null, desc: "fastBindingCardJumpToThirdApp"},
+				{name: "客户端session共享-wk改版接口", link: _nolink, action: "hbts.relogin();",desc : "relogin"},
 			]
 		};
-
 		//可以将索引在所要使用的json对象里
 		var list = data.list
 		for(var i=0;i<list.length;i++){
 			list[i].index = i+1;
 		}
-
         var template = document.getElementById("tmplate").innerHTML;
         var view = Mustache.render(template, data);
 		document.getElementById("table-content").innerHTML = view;
-
     </script>
 </html>
- 
-
-
-
-
- 
-
- 
-
- 
-
- 
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- //{name: "OCR能力", link: "subs/toOCR.html", action: null},
-//{name: "通讯录", link: "subs/mailist.html", action: null},
-//{name: "充值", link: "subs/callToPayRecharge.html", action: null},
-//{name: "游客模式拉起登录页面", link: "subs/youke.html", action: null},
-//{name: "支付", link: "subs/H5fetchPayPlug.html", action: null},
-//{name: "拉起短信面板 ", link: "subs/messageUI.html", action: null},
-//{name: "账单条件查询", link: "subs/checkDetails.html", action: null},
-//{name: "账单详情查询", link: "subs/billDetails.html ", action: null},
-//{name: "国政通优化(支持他人)", link: "subs/lifeCheckPlus.html", action: null},
-//{name: "支付能力外放", link: "subs/cmpOutPay.html", action: null},
-//{name: "和家亲测试页面", link: "subs/hjq.html", action: null},
-//{name: "调节地铁亮度", link: "subs/ditie_liangdu.html", action: null},
-//{name: "唤起微信小程序", link: "subs/miniApp_huanqi.html", action: null},
-//{name: "银行卡详情页", link: "subs/bankCardDesc.html", action: null}, -->

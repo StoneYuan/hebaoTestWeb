@@ -34,6 +34,9 @@
 			<div class="title">
 			</div>
 			<ul class="mui-table-view">
+				<!-- {name: "支付能力外放--和包外使用", link: "subs/moreDetails.html?fid=cmpOutPay", action: null, desc : "PaymentMethod/fetchMethodiPosVC"}, -->				 
+				 <li class="mui-table-view-cell"><a href="subs/moreDetails.html?fid=cmpOutPay">支付能力外放</a></li>
+				 <li class="mui-table-view-cell"><a href="subs/hjq.html">和家亲跳板</a></li>
 				 <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('','chongliuliang');">充流量</a></li>
 		         <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('','chonghuafei');">充话费</a></li>
 		         <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('','bangka');">绑卡</a></li>
@@ -52,8 +55,6 @@
 		         <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('','dianzizhengjian');">电子证件</a></li>
 		         <li class="mui-table-view-cell"><a href="javascript:void(0);" onclick="startClick('SC','yinhangkaguanli');">银行卡管理</a></li>
 				 <li class="mui-table-view-cell"><a href="cmpay://AccountInfo/fetchDFZVC">党费证(裸链接)</a></li>
-				 <li class="mui-table-view-cell"><a href="cmpay://">红包(裸连接)</a></li>
-				 <li class="mui-table-view-cell"><a href="subs/hjq.html">和家亲跳板</a></li>
 			</ul>
 		</div>
 	</body>
@@ -188,9 +189,10 @@
 				var safari =  ua.match(/(safari)/);
 
 				if (isHebao != null) {
-					hebaoWkjs.doCall("innerTiaoban",{
-						url : uatUrl
-					});
+					//hebaoWkjs.doCall("innerTiaoban",{
+						//url : uatUrl
+					//});
+					ShowAlert('请在Safari中测试');
 				}else{
 					window.location.href = uatUrl;
 				}

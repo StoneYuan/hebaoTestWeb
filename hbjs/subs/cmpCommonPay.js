@@ -128,7 +128,16 @@
             }
             var link = 'cmpay://PaymentMethod/fetchMethodiPosVC?payOrderNumber='+orderNo+'&fromScheme=screem&mobileNo='+mobileNo+'&paymentType=&orderType=0&Mercappid='+merppcaid+'&Signdata='+signdata+'Merctimestamp=&SORCNL='+SORCNL+'&MERCSIGN='+MERCSIGN+'&sessionId'+sessionID+'';
             doLog(link);
-            window.location.href = link;
+
+            var ua = navigator.userAgent.toLowerCase();
+            var isHebao =  ua.match(/(hebao)/);
+            var safari =  ua.match(/(safari)/);
+
+            if (isHebao != null) {
+                ShowAlert('请在Safari中测试');
+            }else{
+                window.location.href = link;
+            }
         }
     };
     

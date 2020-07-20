@@ -55,7 +55,7 @@
 
 				if (index == 0) {
 					var type = localStorage.getItem("ios-webview-type");
-					desc = type === '2' ? '老接口' : '新接口';
+					desc = type === '2' ? '老接口(UIWebView)' : '新接口(WKWebView)';
 					if(type === '2'){
 						this.classList.add("mui-active");
 					}
@@ -79,7 +79,7 @@
 					if(index == 0){
 						var type = event.detail.isActive ? '2' : '1';
 						localStorage.setItem("ios-webview-type",type);
-						desc = (type === '2' ? '老接口' : '新接口');
+						desc = (type === '2' ? '老接口(UIWebView)' : '新接口(WKWebView)');
 					}
 
 					if(index == 1){

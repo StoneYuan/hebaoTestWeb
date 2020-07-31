@@ -31,13 +31,13 @@
                         {
                             name : "是本人",
                             key : "isSelf",
-                            value : 1,
+                            value : true,
                             checked : true                      
                         },
                         {
                             name : "不是本人",
                             key : "isSelf",
-                            value : 0                       
+                            value : false                      
                         }
                     ]
                 }
@@ -99,7 +99,7 @@
                         ShowAlert(r);
                     }
                     if (!isWk) {
-                        doVivoDetectionWithPhone(e.isSelf, e.name, e.idNum, e.serialNum, e.phoneNum);
+                        doVivoDetectionWithPhone(e.isSelf, e.name, e.idNum, e.serialNum, "callbackLifeCheckPlus('xxxx')", e.phoneNum);
                     }else{
                         hebaoWkjs.doCall('doVivoDetectionWithPhone',e);
                     }

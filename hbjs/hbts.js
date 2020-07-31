@@ -639,7 +639,7 @@ function ImportJSFileToJs(e){
         if(!isWk){
             CmpStartHtcsCode({key:"00000000000000000000"});
         }else{
-            hebaoWkjs.doCall('CmpStartHtcsCode',{key:"00000000000000000000"});
+            hebaoWkjs.doCall('CmpStartHtcsCode',{params: {key:"00000000000000000000"}});
         }
     };  
 
@@ -649,7 +649,7 @@ function ImportJSFileToJs(e){
         if(!isWk){
             CmpSendToHtcsCode({key:"00000000000000000000"});
         }else{
-            hebaoWkjs.doCall('CmpSendToHtcsCode',{key:"00000000000000000000"});
+            hebaoWkjs.doCall('CmpSendToHtcsCode',{params: {key:"00000000000000000000"}});
         }
     };    
 
@@ -888,6 +888,9 @@ function ImportJSFileToJs(e){
 
     //和包果园添加好友
     hbts.goMocamContact = function(){
+        $.addFriend = function(r) {
+            ShowAlert("回调结果："+r);
+        }   
         var isWk = this.isWkjs();
         if(!isWk){
             goMocamContact();

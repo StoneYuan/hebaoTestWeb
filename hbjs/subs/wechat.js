@@ -96,10 +96,10 @@
             var isWk = this.isWkjs();
             if (!isWk) {            
                 sendWXSubscribeMessage(
-                    e.webpageUrl,
-                    e.username,
-                    e.path,
-                    e.hdImageStr );
+                    e.title,
+                    e.url,
+                    e.value,
+                    e.color);
             }else{
                 hebaoWkjs.doCall('sendWXSubscribeMessage',e);
             }       
